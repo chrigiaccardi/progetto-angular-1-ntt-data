@@ -5,9 +5,9 @@
         </div>
     </mat-sidenav>
     <mat-sidenav-content>
-        <div class="grid grid-col-2 gap-5">
-            <app-pannello-utenti titolo()="Utenti"/>
-            <app-pannello-post />
+        <div class="grid grid-cols-2 gap-5 ">
+            <app-pannello-dashboard [titolo]="'Utenti'" />
+            <app-pannello-dashboard [titolo]="'Post'"/>
         </div>
 
     </mat-sidenav-content>

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
-import { PannelloUtenti } from "./components/pannello-utenti/pannello-utenti";
-import { PannelloPost } from "./components/pannello-post/pannello-post";
+import { PannelloDashboard } from "./components/pannello-dashboard/pannello-dashboard";
+
 
 @Component({
   selector: 'app-dashboard',
-  imports: [MatSidenavModule, PannelloUtenti, PannelloPost],
+  imports: [MatSidenavModule, PannelloDashboard],
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })

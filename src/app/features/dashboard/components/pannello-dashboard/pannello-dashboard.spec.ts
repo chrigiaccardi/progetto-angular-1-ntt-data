@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PannelloPost } from './pannello-post';
+import { PannelloDashboard } from './pannello-dashboard';
 
-describe('PannelloPost', () => {
-  let component: PannelloPost;
-  let fixture: ComponentFixture<PannelloPost>;
+describe('PannelloDashboard', () => {
+  let component: PannelloDashboard;
+  let fixture: ComponentFixture<PannelloDashboard>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PannelloPost],
+      imports: [PannelloDashboard],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(PannelloPost);
+    fixture = TestBed.createComponent(PannelloDashboard);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
