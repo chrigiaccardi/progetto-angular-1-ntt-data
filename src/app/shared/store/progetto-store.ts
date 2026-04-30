@@ -1,14 +1,17 @@
-import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
+// import { Injectable } from '@angular/core'
+// import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
 
-export const ProgettoStore = signalStore(
-    {providedIn: 'root'},
+// @Injectable({ providedIn: 'root' })
+    
+// export const ProgettoStore = signalStore(
+//     {providedIn: 'root'},
 
-    withState({}),
+//     withState({}),
 
-    withComputed((store) => ({
+//     withComputed((store) => ({
 
-    }),
-    withMethods(() => ({
+//     }),
+//     withMethods(() => ({
         
-    })
-)
+//     })
+// )

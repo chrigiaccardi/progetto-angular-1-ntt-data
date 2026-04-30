@@ -19,14 +19,15 @@
                 il tuo Token</a>
                 <p class="m-3 text-xl">Inserisci il tuo token ed entra nella piattaforma</p>
             <div class="w-full margin mt-3">
-                <form (ngSubmit)="store.invioToken(token)">
+                <form #authForm="ngForm" (ngSubmit)="invioToken(authForm)">
                     <mat-form-field appearance="outline" class="w-full">
                         <mat-label>Token di Autorizzazione</mat-label>
-                        <input matInput type="text" ngModel required>
+                        <input matInput type="text" name="token" ngModel required>
                     </mat-form-field>
+                    <button matButton="filled" type="submit" [disabled]="!authForm.valid">Accedi</button>
                 </form>
             </div>
-            <button matButton="filled">Accedi</button>
+            
         </div>
     </div>
 </div>

@@ -27,7 +27,7 @@ export class AuthService {
 
   private readonly CHIAVE_TOKEN = 'tokenDiAccesso'
 
-  // Al caricamento recuperiamo il token dal localStorage
+  // Al caricamento recuperiamo il token dal localStorage e aggiorniamo il signal token
   constructor() {
     this.recuperaTokenDaLocalStorage();
   }
@@ -65,6 +65,7 @@ export class AuthService {
       next: (response) => {
         if (response.status === 200) {
           this.salvataggioToken(token, response.status);
+          localStorage.setItem('tokenDiAccesso', token)
           this.userLoggato.set(true);
           this.router.navigate(['/dashboard']);
         } else {
@@ -87,6 +88,7 @@ export class AuthService {
   // Metodo Logout
   logout(): void {
     this.token.set(null);
+    localStorage.removeItem('tokenDiAccesso')
     this.userLoggato.set(false);
     this.codiceErrore.set(null);
     this.router.navigate(['/login'])
