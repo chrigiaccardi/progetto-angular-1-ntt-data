@@ -10,7 +10,19 @@
             <app-pannello-dashboard [titolo]="'Post'"/>
 
             <div pannelloDashboard>
-                @for() {}
+                @if(utentiStore.caricamento()) {
+                    <p>Caricamento Dati</p>
+                } @else if(utentiStore.errore()) {
+                    <p>Ops! {{utentiStore.errore()}}</p>
+                } @else {
+                    @for (utente of utentiStore.utenti(); track utente.id) {
+                        <div class="flex  justify-between m-3 {{utente.gender === 'male' ? 'bg-blue-200' : 'bg-red-200'}}">
+                            <h3>{{utente.name}}</h3>
+                            <p>{{utente.email}}</p>
+                            <p>{{utente.id}}</p>
+                        </div>
+                    }
+                }
             </div>
         </div>
 

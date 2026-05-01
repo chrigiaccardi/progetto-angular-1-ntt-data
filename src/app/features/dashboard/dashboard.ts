@@ -1,7 +1,6 @@
 import { Component, Inject, inject } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { PannelloDashboard } from "./components/pannello-dashboard/pannello-dashboard";
-import { Utente } from '../../core/models/utente';
 import { UtentiStore } from '../../core/store/utenti-store';
 
 
@@ -14,8 +13,6 @@ import { UtentiStore } from '../../core/store/utenti-store';
 export class Dashboard {
   // Iniettiamo UtentiStore per poterlo utilizzare
   utentiStore = inject(UtentiStore)
-
-  listaUtenti = this.utentiStore.caricareListaUtenti()
 
 
 }
