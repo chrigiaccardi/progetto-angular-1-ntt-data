@@ -1,8 +1,9 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
 import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
+import { catchError, of, tap } from 'rxjs';
 
 export type UtentiState = {
     utenti: Utente[];
@@ -11,6 +12,7 @@ export type UtentiState = {
     errore: string | null
     totaleUtenti: number;
     paginaCorrente: number;
+    perPage: number;
 }
 
 export const UtentiStore = signalStore(
@@ -24,6 +26,7 @@ export const UtentiStore = signalStore(
         errore: null,
         totaleUtenti: 0,
         paginaCorrente: 1,
+        perPage: 20,
     } as UtentiState),
 
     withComputed((store) => ({
@@ -34,20 +37,21 @@ export const UtentiStore = signalStore(
     }),
     ),
 
-    withMethods((store, http = inject(HttpClient), authService = inject(AuthService)) => ({
+    withMethods((store, http = inject(HttpClient), authService = inject(AuthService)) => {
         
-        caricareListaUtenti: signalMethod(
-            (source) => source,
-            (page: number = 1, per_page: number = 20) => {
-                const url = `https://gorest.co.in/public/v2/users?page=${page}&per_page=${per_page}`;
+        const utentiRisposta = httpResource(() => {
+                const url = `${authService.url}?page=${store.paginaCorrente()}&per_page=${store.perPage()}`;
                 const headers = new HttpHeaders({
-                    'Authorization': `Bearer &{authService.tokenLocalStorage}`
+                    'Authorization': `Bearer ${authService.tokenLocalStorage}`
                 });
-                return http.get<Utente[]>(url, {headers})
+            return {
+                     caricamento: utentiRisposta.isLoading,
+            errore: utentiRisposta.error,
+                }
+                );
             }
         )
-    
-}))
+})
 )
 
 
