@@ -17,7 +17,7 @@ export class AuthService {
   token = signal<string | null> (null)
 
   // userLoggato indica se l'utente è loggato oppure no
-  userLoggato = signal<boolean>(false);
+  utenteLoggato = signal<boolean>(false);
 
   // urlBase indica l'url di check per il bearer token
   url: string = 'https://gorest.co.in/public/v2/users';
@@ -37,7 +37,7 @@ export class AuthService {
     const tokenSalvato = localStorage.getItem(this.CHIAVE_TOKEN);
     if (tokenSalvato) {
       this.token.set(tokenSalvato)
-      this.userLoggato.set(true)
+      this.utenteLoggato.set(true)
     }
   }
 
@@ -66,7 +66,7 @@ export class AuthService {
         if (response.status === 200) {
           this.salvataggioToken(token, response.status);
           localStorage.setItem('tokenDiAccesso', token)
-          this.userLoggato.set(true);
+          this.utenteLoggato.set(true);
           this.router.navigate(['/dashboard']);
         } else {
           this.autenticazioneFallita(response.status)
@@ -81,15 +81,21 @@ export class AuthService {
 
   // Metodo per il settaggio ad autenticazione fallita
   private autenticazioneFallita(codiceStato: number) {
-    this.userLoggato.set(false);
+    this.utenteLoggato.set(false);
     this.codiceErrore.set(codiceStato)
   };
+
+  // Token dal local storage Pubblico
+  tokenLocalStorage() {
+    return localStorage.getItem('tokenDiAccesso')
+  }
+
 
   // Metodo Logout
   logout(): void {
     this.token.set(null);
     localStorage.removeItem('tokenDiAccesso')
-    this.userLoggato.set(false);
+    this.utenteLoggato.set(false);
     this.codiceErrore.set(null);
     this.router.navigate(['/login'])
   }

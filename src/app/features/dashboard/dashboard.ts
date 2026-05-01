@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Inject, inject } from '@angular/core';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { PannelloDashboard } from "./components/pannello-dashboard/pannello-dashboard";
+import { Utente } from '../../core/models/utente';
+import { UtentiStore } from '../../core/store/utenti-store';
 
 
 @Component({
@@ -9,4 +11,11 @@ import { PannelloDashboard } from "./components/pannello-dashboard/pannello-dash
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {}
+export class Dashboard {
+  // Iniettiamo UtentiStore per poterlo utilizzare
+  utentiStore = inject(UtentiStore)
+
+  listaUtenti = this.utentiStore.caricareListaUtenti()
+
+
+}
