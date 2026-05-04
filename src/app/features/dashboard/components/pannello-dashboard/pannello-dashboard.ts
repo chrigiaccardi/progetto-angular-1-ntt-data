@@ -1,9 +1,10 @@
 import { Component, input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { CardDashboard } from '../../../../shared/directives/card-dashboard';
 
 @Component({
   selector: 'app-pannello-dashboard',
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, CardDashboard],
   templateUrl: './pannello-dashboard.html',
   styleUrl: './pannello-dashboard.css',
 })

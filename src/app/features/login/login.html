@@ -1,5 +1,5 @@
 <div class="grid grid-cols-8 grid-rows-2 gap-4 m-5">
-    <div class="bg-gradient-to-r from-green-400 to-blue-400 row-span-1 col-start-1 col-end-6 rounded-xl shadow-xl p-3 ">
+    <div class="row-span-1 col-start-1 col-end-6">
         <div class="bg-white rounded-xl flex flex-col h-full justify-around">
             <h2 class="font-extrabold text-xl text-center">Che cos'è CityShare Hub?</h2>
             <h3 class="font-bold text-xl text-center">Trasforma la Tua Città</h3>
@@ -12,7 +12,7 @@
         </div>
     </div>
 
-    <div class="bg-gradient-to-r from-green-400 to-blue-400  p-3 rounded-xl row-start-2 col-start-4 col-end-9 shadow-xl">
+    <div class="row-start-2 col-start-4 col-end-9">
         <div class="bg-white rounded-xl p-3 flex flex-col items-center h-full">
             <h2 class="font-bold text-xl m-3 text-blue-900">Login</h2>
             <a href="https://gorest.co.in/consumer/login" class="my-3 bg-gradient-to-r from-green-300 to-blue-300  p-3 rounded-xl">Clicca qui per avere
@@ -24,7 +24,7 @@
                         <mat-label>Token di Autorizzazione</mat-label>
                         <input matInput type="text" name="token" ngModel required>
                     </mat-form-field>
-                    <button matButton="filled" type="submit" [disabled]="!authForm.valid">Accedi</button>
+                    <button matButton="filled" type="submit" [disabled]="!authForm.valid" class="{{authForm.valid ? '!bg-gradient-to-r from-green-300 to-blue-300 !text-gray-800' : ''}}">Accedi</button>
                 </form>
             </div>
             

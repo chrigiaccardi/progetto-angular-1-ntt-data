@@ -1,6 +1,6 @@
-<mat-toolbar class="w-full elevated py-2 !bg-gradient-to-r from-blue-400 to-green-400 shadow-xl">
+<mat-toolbar class="w-full elevated py-2 !bg-gray-200 border-gray-300 border-b-2 ">
     <div class="max-w-[1200px] mx-auto w-full items-center flex justify-between text-white">
-        <h1 class="font-bold text-xl">CityShare Hub</h1>
+        <h1 class="!font-extrabold text-blue-900">CityShare Hub</h1>
         @if (authService.utenteLoggato()) {
             <button matButton="filled" (click)="authService.logout()">Logout</button>
         }
