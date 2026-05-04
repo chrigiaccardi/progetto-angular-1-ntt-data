@@ -1,0 +1,13 @@
+<div cardDashboard class="items-center">
+    @if(utentiStore.caricamento()) {
+    <p class="text-xl text-bold ">Caricamento Dati</p>
+    } @else if(utentiStore.errore()) {
+    <p>Ops! {{utentiStore.errore()}}</p>
+    } @else {
+    @for (utente of utentiStore.utenti(); track utente.id) {
+    <div class="flex  justify-between m-3 {{utente.gender === 'male' ? 'bg-blue-200' : 'bg-red-200'}}">
+        {{utente.name}}
+    </div>
+    }
+    }
+</div>

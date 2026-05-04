@@ -1,32 +1,10 @@
-<mat-sidenav-container class="!bg-transparent">
-    <mat-sidenav mode="side" class="bg-gray-300">
+<mat-sidenav-container class="!bg-transparent h-full">
+    <mat-sidenav mode="side" class="bg-gray-300" [opened]="sidenav.sidenavAperta">
         <div class="bg-blue-300">
             <h1>ciaooooo</h1>
         </div>
     </mat-sidenav>
     <mat-sidenav-content >
-        <div class="grid grid-cols-2 gap-5">
-            <app-pannello-dashboard [titolo]="'Utenti'" />
-            <app-pannello-dashboard [titolo]="'Post'"/>
-        </div>
-            <div cardDashboard class="items-center">
-                <div class="flex justify-between items-center">
-                    <h3>Utenti Registrati</h3>
-                </div>
-                @if(utentiStore.caricamento()) {
-                    <p class="text-xl text-bold " >Caricamento Dati</p>
-                } @else if(utentiStore.errore()) {
-                    <p>Ops! {{utentiStore.errore()}}</p>
-                } @else {
-                    
-                    @for (utente of utentiStore.utenti(); track utente.id) {
-                        <div class="flex  justify-between m-3 {{utente.gender === 'male' ? 'bg-blue-200' : 'bg-red-200'}}">
-                           {{utente.name}}
-                        </div>
-                    }
-                }
-            </div>
-        
-
+      <router-outlet />
     </mat-sidenav-content>
 </mat-sidenav-container>

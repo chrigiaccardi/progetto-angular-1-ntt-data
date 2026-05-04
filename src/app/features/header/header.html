@@ -1,6 +1,14 @@
 <mat-toolbar class="w-full elevated py-2 !bg-gray-200 border-gray-300 border-b-2 ">
     <div class="max-w-[1200px] mx-auto w-full items-center flex justify-between text-white">
-        <h1 class="!font-extrabold text-blue-900">CityShare Hub</h1>
+        <div class="flex items-center">
+            @if (authService.tokenLocalStorage()) { 
+                <button matIconButton (click)="sidenav.toggleSidenav()" class="mr-2 hover:!bg-blue-200">
+                <mat-icon>{{sidenav.sidenavAperta ? 'close' : 'menu'}}</mat-icon>
+            </button>
+        }
+           <h1 class="!font-extrabold text-blue-900">CityShare Hub</h1> 
+        </div>
+        
         @if (authService.utenteLoggato()) {
             <button matButton="filled" (click)="authService.logout()">Logout</button>
         }
