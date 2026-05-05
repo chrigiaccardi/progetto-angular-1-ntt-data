@@ -8,7 +8,8 @@ export type UtentiState = {
     utenteCorrente: Utente | null;
     totaleUtenti: number;
     paginaCorrente: number;
-    itemPerPagina: number;
+    itemXPagina: number;
+    opzioniItemPagina: number[]
 }
 
 export const UtentiStore = signalStore(
@@ -18,15 +19,16 @@ export const UtentiStore = signalStore(
     withState({
         utenteCorrente: null,
         totaleUtenti: 0,
-        paginaCorrente: 1,
-        itemPerPagina: 10,
+        paginaCorrente: 2,
+        itemXPagina: 5,
+        opzioniItemPagina: [5,10,20,50]
     } as UtentiState),
 
 
     withMethods((store, authService = inject(AuthService)) => {
 
         const rispostaUtenti = httpResource<Utente[]>(() => ({
-            url: `${authService.url}?page=${store.paginaCorrente()}&per_page=${store.itemPerPagina()}`,
+            url: `${authService.url}?page=${store.paginaCorrente()}&per_page=${store.itemXPagina()}`,
             method: 'GET',
             headers: new HttpHeaders({
                 'Authorization': `Bearer ${authService.tokenLocalStorage()}`
@@ -42,6 +44,9 @@ export const UtentiStore = signalStore(
             andareAPagina: (numeroPagina: number) => {
                 patchState(store, {paginaCorrente: numeroPagina})
             },
+            itemPerPagina: (nItem: number) => {
+                patchState(store, {itemXPagina: nItem})
+            },
             
         }
     }),
@@ -51,6 +56,15 @@ export const UtentiStore = signalStore(
         contatoreUtenti: computed(() => store.utenti()?.length ?? 0),
 
         utenteCaricato: computed(() => store.utenteCorrente !== null),
+        
+        paginaPrecedente: computed(() => store.paginaCorrente() - 1),
+        
+        paginaSuccessiva: computed(() => store.paginaCorrente() + 1),
+        
+        itemPagina: computed(() => store.itemXPagina()),
+        
+        opzioniItemPagina: computed(() => store.opzioniItemPagina())
+
     }),
     ),
 )
