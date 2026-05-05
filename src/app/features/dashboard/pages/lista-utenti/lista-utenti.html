@@ -3,8 +3,8 @@
 
     <div cardDashboard class="items-center">
         <div class="border-b-1 border-gray-300 mb-5 p-2 grid grid-cols-1 md:grid-cols-2 items-center">
-            <h2 class="font-extrabold text-xl text-blue-900">Lista Utenti Completa</h2>
-            <input type="text" matInput placeholder="Filtra per nome / email" class="border border-gray-300 rounded-lg p-2 focus:ring-blue-200">
+            <h2 class="font-extrabold text-xl text-blue-900 mb-3">Lista Utenti Completa</h2>
+            <input type="text" matInput placeholder="Filtra per nome / email" class="border border-gray-300 rounded-lg p-2 mb-3 focus:ring-blue-200">
         </div>
         @if(utentiStore.caricamento()) {
             <p class="text-xl text-bold ">Caricamento Dati</p>
@@ -12,8 +12,11 @@
             <p>Ops! {{utentiStore.errore()}}</p>
         } @else {
             @for (utente of utentiStore.utenti(); track utente.id) {
-                <app-item-lista-utenti />
+                <app-item-lista-utenti [nome]="utente.name" [email]="utente.email" [stato]="utente.status"/>
             }
         }
+        <div class="border-t-1 border-gray-300 p-2">
+            <mat-paginator [length]="200" [pageSizeOptions]="[10, 20, 50]" aria-label="Seleziona pagina" class="!bg-white"></mat-paginator>
+        </div>
     </div>
 </div>

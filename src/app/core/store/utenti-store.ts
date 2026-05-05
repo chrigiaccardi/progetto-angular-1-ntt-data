@@ -8,7 +8,7 @@ export type UtentiState = {
     utenteCorrente: Utente | null;
     totaleUtenti: number;
     paginaCorrente: number;
-    perPage: number;
+    itemPerPagina: number;
 }
 
 export const UtentiStore = signalStore(
@@ -19,14 +19,14 @@ export const UtentiStore = signalStore(
         utenteCorrente: null,
         totaleUtenti: 0,
         paginaCorrente: 1,
-        perPage: 20,
+        itemPerPagina: 10,
     } as UtentiState),
 
 
     withMethods((store, authService = inject(AuthService)) => {
 
         const rispostaUtenti = httpResource<Utente[]>(() => ({
-            url: `${authService.url}?page=${store.paginaCorrente()}&per_page=${store.perPage()}`,
+            url: `${authService.url}?page=${store.paginaCorrente()}&per_page=${store.itemPerPagina()}`,
             method: 'GET',
             headers: new HttpHeaders({
                 'Authorization': `Bearer ${authService.tokenLocalStorage()}`
@@ -41,7 +41,8 @@ export const UtentiStore = signalStore(
             },
             andareAPagina: (numeroPagina: number) => {
                 patchState(store, {paginaCorrente: numeroPagina})
-            }
+            },
+            
         }
     }),
 
