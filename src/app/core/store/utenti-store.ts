@@ -19,7 +19,7 @@ export const UtentiStore = signalStore(
     withState({
         utenteCorrente: null,
         totaleUtenti: 0,
-        paginaCorrente: 2,
+        paginaCorrente: 1,
         itemXPagina: 5,
         opzioniItemPagina: [5,10,20,50]
     } as UtentiState),
