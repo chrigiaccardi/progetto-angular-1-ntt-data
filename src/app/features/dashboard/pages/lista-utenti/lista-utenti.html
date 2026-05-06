@@ -2,55 +2,60 @@
     <app-btn-indietro [andareVerso]="'/dashboard/homepage'">Ritorna alla Homepage</app-btn-indietro>
 
     <div cardDashboard class="items-center">
-        <div class="border-b-1 border-gray-300 mb-5 p-2 grid grid-cols-1 md:grid-cols-2 items-center">
+        <div class="border-b-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-2 items-center">
             <h2 class="font-extrabold text-xl text-blue-900 mb-3">Lista Utenti Completa</h2>
             <input type="text" matInput placeholder="Filtra per nome / email"
                 class="border border-gray-300 rounded-lg p-2 mb-3 focus:ring-blue-200">
         </div>
-
-        @if(utentiStore.caricamento()) {
-            <p class="text-xl text-bold items-center">Caricamento Dati</p>
-        } @else if(utentiStore.errore()) {
-            <p>Ops! {{utentiStore.errore()}}</p>
-        } @else {
-            @for (utente of utentiStore.utenti(); track utente.id) {
-                <app-item-lista-utenti [nome]="utente.name" [email]="utente.email" [stato]="utente.status" />
+        <div class="flex items-center justify-center gap-5 mb-5">
+            @if(utentiStore.caricamento()) {
+            <p class="text-xl text-bold text-blue-900">Caricamento Dati</p>
+            <mat-spinner class="!h-10 !w-10"></mat-spinner>
             }
+            @if (utentiStore.errore()) {
+            <p class="text-xl text-bold text-blue-900">Ops! {{utentiStore.errore()}}</p>
+            }
+        </div>
+
+        @for (utente of utentiStore.utenti(); track utente.id) {
+        <app-item-lista-utenti [nome]="utente.name" [email]="utente.email" [stato]="utente.status"
+            [genere]="utente.gender" />
         }
 
         <div class="border-t-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-2 items-center">
-            
-            <div class="flex items-center gap-2">
-                 <span class="text-blue-900">Utenti per Pagina</span>
-            <select [value]="itemXPagina()" (change)="cambioItemPagina($event)" class="p-2 border border-gray-300 rounded-lg hover:border-blue-400">
-                @for (n of opzioniItemPagina(); track n) {
-                    <option [value]="n">{{n}}</option>
-                }
-            </select>
-            </div>
-           
-            <div class="">
-                @if (utentiStore.paginaCorrente() !== 1) {
-            <button matButton="text" class="!bg-blue-100 mt-2"
-                (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">
-                <mat-icon matIconPrefix>arrow_back_ios</mat-icon>
-                Indietro
-            </button>
-            <button matButton="text" class="!bg-blue-100 mt-2"
-                (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">{{utentiStore.paginaPrecedente()}}</button>
-            }
 
-            <button matButton="text"
-                class="!bg-blue-100 mt-2 !font-extrabold !text-xl">{{utentiStore.paginaCorrente()}}</button>
-            <button matButton="text" class="!bg-blue-100 mt-2"
-                (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">{{utentiStore.paginaSuccessiva()}}</button>
-            <button matButton="text" class="!bg-blue-100 mt-2"
-                (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">
-                Avanti
-                <mat-icon matIconSuffix>arrow_forward_ios</mat-icon>
-            </button>
+            <div class="flex items-center gap-2 justify-center">
+                <span class="text-blue-900">Utenti per Pagina</span>
+                <select [value]="itemXPagina()" (change)="cambioItemPagina($event)"
+                    class="p-2 border border-gray-300 rounded-lg hover:border-blue-400">
+                    @for (n of opzioniItemPagina(); track n) {
+                    <option [value]="n">{{n}}</option>
+                    }
+                </select>
             </div>
-            
+
+            <div class="flex justify center">
+                @if (utentiStore.paginaCorrente() !== 1) {
+                <button matButton="text" class="!bg-blue-100 mt-2"
+                    (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">
+                    <mat-icon matIconPrefix>arrow_back_ios</mat-icon>
+                    Indietro
+                </button>
+                <button matButton="text" class="!bg-blue-100 mt-2"
+                    (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">{{utentiStore.paginaPrecedente()}}</button>
+                }
+
+                <button matButton="text"
+                    class="!bg-blue-100 mt-2 !font-extrabold !text-xl">{{utentiStore.paginaCorrente()}}</button>
+                <button matButton="text" class="!bg-blue-100 mt-2"
+                    (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">{{utentiStore.paginaSuccessiva()}}</button>
+                <button matButton="text" class="!bg-blue-100 mt-2"
+                    (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">
+                    Avanti
+                    <mat-icon matIconSuffix>arrow_forward_ios</mat-icon>
+                </button>
+            </div>
+
         </div>
     </div>
 </div>

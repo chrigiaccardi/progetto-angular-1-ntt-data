@@ -8,8 +8,11 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './item-lista-utenti.css',
 })
 export class ItemListaUtenti {
+// inseriamo in input parametri con il binding dal parent dinamici
   nome = input<string | null>(null)
   stato = input<string | null>(null)
   email = input<string | null>(null)
+  genere = input<string | null>(null)
+  
   
 }
