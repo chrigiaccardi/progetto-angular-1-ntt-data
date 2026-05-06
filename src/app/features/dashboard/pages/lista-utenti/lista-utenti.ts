@@ -13,10 +13,10 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './lista-utenti.html',
   styleUrl: './lista-utenti.css',
 })
-export class ListaUtenti {
+export default class ListaUtenti {
   utentiStore = inject(UtentiStore)
 
-  itemXPagina = this.utentiStore.itemPagina
+  itemXPagina = this.utentiStore.itemXPagina
   opzioniItemPagina = this.utentiStore.opzioniItemPagina
 
   cambioItemPagina(event: Event) {

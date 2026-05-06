@@ -61,10 +61,6 @@ export const UtentiStore = signalStore(
         
         paginaSuccessiva: computed(() => store.paginaCorrente() + 1),
         
-        itemPagina: computed(() => store.itemXPagina()),
-        
-        opzioniItemPagina: computed(() => store.opzioniItemPagina())
-
     }),
     ),
 )

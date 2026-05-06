@@ -7,6 +7,6 @@ import { PannelloDashboard } from '../../components/pannello-dashboard/pannello-
   templateUrl: './homepage.html',
   styleUrl: './homepage.css',
 })
-export class Homepage {
+export default class Homepage {
 
 }

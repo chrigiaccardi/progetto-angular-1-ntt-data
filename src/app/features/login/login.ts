@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
-export class Login {
+export default class Login {
 
   // Iniettiamo AuthService
   authService = inject(AuthService)

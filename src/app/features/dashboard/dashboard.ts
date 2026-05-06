@@ -10,7 +10,7 @@ import { RouterOutlet } from '@angular/router'
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.css',
 })
-export class Dashboard {
+export default class Dashboard {
   // Iniettiamo il service sidenav per apertura e chiusura
   sidenav = inject(BtnSidenav)
 

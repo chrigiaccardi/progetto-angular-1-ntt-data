@@ -9,7 +9,7 @@
         </div>
 
         @if(utentiStore.caricamento()) {
-            <p class="text-xl text-bold ">Caricamento Dati</p>
+            <p class="text-xl text-bold items-center">Caricamento Dati</p>
         } @else if(utentiStore.errore()) {
             <p>Ops! {{utentiStore.errore()}}</p>
         } @else {
