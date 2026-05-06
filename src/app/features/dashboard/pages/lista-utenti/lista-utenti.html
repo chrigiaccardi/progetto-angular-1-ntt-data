@@ -18,8 +18,7 @@
         </div>
 
         @for (utente of utentiStore.utenti(); track utente.id) {
-        <app-item-lista-utenti [nome]="utente.name" [email]="utente.email" [stato]="utente.status"
-            [genere]="utente.gender" />
+        <app-item-lista-utenti [utente]="utente"/>
         }
 
         <div class="border-t-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-2 items-center">

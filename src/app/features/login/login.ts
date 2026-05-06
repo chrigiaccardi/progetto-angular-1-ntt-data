@@ -4,10 +4,11 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../core/services/auth-service/auth-service';
 import { MatButtonModule } from '@angular/material/button';
+import { CardDashboard } from "../../shared/directives/card-dashboard";
 
 @Component({
   selector: 'app-login',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, CardDashboard],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

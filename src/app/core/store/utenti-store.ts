@@ -1,4 +1,4 @@
-import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
+import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
 import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
 import { HttpHeaders, httpResource } from '@angular/common/http';
@@ -9,7 +9,8 @@ export type UtentiState = {
     totaleUtenti: number;
     paginaCorrente: number;
     itemXPagina: number;
-    opzioniItemPagina: number[]
+    opzioniItemPagina: number[];
+    selezioneIdUtente: string | undefined;
 }
 
 export const UtentiStore = signalStore(
@@ -21,7 +22,8 @@ export const UtentiStore = signalStore(
         totaleUtenti: 0,
         paginaCorrente: 1,
         itemXPagina: 5,
-        opzioniItemPagina: [5,10,20,50]
+        opzioniItemPagina: [5, 10, 20, 50],
+        selezioneIdUtente: undefined
     } as UtentiState),
 
 
@@ -47,6 +49,9 @@ export const UtentiStore = signalStore(
             itemPerPagina: (nItem: number) => {
                 patchState(store, {itemXPagina: nItem})
             },
+            setIdUtente: signalMethod<string>((idUtente: string) => {
+                patchState(store, {selezioneIdUtente: idUtente})
+            })
             
         }
     }),

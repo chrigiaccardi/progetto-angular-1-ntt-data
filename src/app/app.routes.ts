@@ -10,6 +10,6 @@ export const routes: Routes = [
         { path: 'homepage', loadComponent: () => import('./features/dashboard/pages/homepage/homepage') },
         { path:'lista-utenti', loadComponent: () => import('./features/dashboard/pages/lista-utenti/lista-utenti') },
         { path: 'lista-post', loadComponent: () => import('./features/dashboard/pages/lista-post/lista-post') },
-        { path: 'dettagli-utente/:idUtente', loadComponent: () => import('./features/dashboard/pages/dettagli-utente/dettagli-utente'),}
+        { path: 'dettagli-utente/:idUtente', loadComponent: () => import('./features/dashboard/pages/dettagli-utente/dettagli-utente')}
     ] }
 ];
