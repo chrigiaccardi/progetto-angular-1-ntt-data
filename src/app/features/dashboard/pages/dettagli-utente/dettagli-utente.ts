@@ -1,9 +1,11 @@
 import { Component, inject, input } from '@angular/core';
 import { UtentiStore } from '../../../../core/store/utenti-store';
+import { Utente } from '../../../../core/models/utente';
+import { MatIconModule } from "@angular/material/icon";
 
 @Component({
   selector: 'app-dettagli-utente',
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './dettagli-utente.html',
   styleUrl: './dettagli-utente.css',
 })
