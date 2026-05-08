@@ -2,10 +2,11 @@
     <app-btn-indietro [andareVerso]="'/dashboard/homepage'">Ritorna alla Homepage</app-btn-indietro>
 
     <div cardDashboard class="items-center">
-        <div class="border-b-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-2 items-center">
+        <div class="border-b-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-3 items-center">
             <h2 class="font-extrabold text-xl text-blue-900 mb-3">Lista Utenti Completa</h2>
             <input type="text" matInput placeholder="Filtra per nome / email"
                 class="border border-gray-300 rounded-lg p-2 mb-3 focus:ring-blue-200">
+            <button matButton="text">+ Aggiungi Utente</button>
         </div>
         <div class="flex items-center justify-center gap-5 mb-5">
             @if(utentiStore.caricamento()) {

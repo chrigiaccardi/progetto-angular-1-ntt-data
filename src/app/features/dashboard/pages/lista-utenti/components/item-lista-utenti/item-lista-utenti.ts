@@ -2,10 +2,11 @@ import { Component, input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Utente } from '../../../../../../core/models/utente';
 import { RouterLink } from '@angular/router';
+import { PipeStatoPipe } from "../../../../../../shared/pipes/pipe-stato-pipe";
 
 @Component({
   selector: 'app-item-lista-utenti',
-  imports: [MatIconModule, RouterLink],
+  imports: [MatIconModule, RouterLink, PipeStatoPipe],
   templateUrl: './item-lista-utenti.html',
   styleUrl: './item-lista-utenti.css',
 })
