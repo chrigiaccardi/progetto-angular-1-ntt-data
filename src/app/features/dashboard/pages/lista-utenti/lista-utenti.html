@@ -3,10 +3,16 @@
 
     <div cardDashboard class="items-center">
         <div class="border-b-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-3 items-center">
-            <h2 class="font-extrabold text-xl text-blue-900 mb-3">Lista Utenti Completa</h2>
-            <input type="text" matInput placeholder="Filtra per nome / email"
-                class="border border-gray-300 rounded-lg p-2 mb-3 focus:ring-blue-200">
-            <button matButton="text">+ Aggiungi Utente</button>
+            <div class="flex md:justify-center mb-3">
+                <h2 class="font-extrabold text-xl text-blue-900">Lista Utenti Completa</h2>
+            </div>
+            <div class="flex md:justify-center mb-3">
+                <input type="text" matInput placeholder="Filtra per nome / email"
+                    class="border border-gray-300 rounded-lg p-2 focus:ring-blue-200 w-60">
+            </div>
+            <div class="flex md:justify-center mb-3">
+                <button matButton="text" class="w-40" (click)="apriDialogAggiungiUtente()">+ Aggiungi Utente</button>
+            </div>
         </div>
         <div class="flex items-center justify-center gap-5 mb-5">
             @if(utentiStore.caricamento()) {
@@ -19,7 +25,7 @@
         </div>
 
         @for (utente of utentiStore.utenti(); track utente.id) {
-        <app-item-lista-utenti [utente]="utente"/>
+        <app-item-lista-utenti [utente]="utente" />
         }
 
         <div class="border-t-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-2 items-center">
@@ -38,7 +44,7 @@
                 @if (utentiStore.paginaCorrente() !== 1) {
                 <button matButton="text" class="!bg-blue-100 mt-2"
                     (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">
-                    <mat-icon matIconPrefix>arrow_back_ios</mat-icon>
+                    <mat-icon matPrefix>arrow_back_ios</mat-icon>
                     Indietro
                 </button>
                 <button matButton="text" class="!bg-blue-100 mt-2"
@@ -52,7 +58,7 @@
                 <button matButton="text" class="!bg-blue-100 mt-2"
                     (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">
                     Avanti
-                    <mat-icon matIconSuffix>arrow_forward_ios</mat-icon>
+                    <mat-icon matSuffix>arrow_forward_ios</mat-icon>
                 </button>
             </div>
 

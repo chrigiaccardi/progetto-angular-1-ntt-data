@@ -1,0 +1,36 @@
+<div class="p-8 max-w-[400px] flex flex-col">
+    <!-- Creiamo due sezioni separate, la parte superiore e il form -->
+    <div class="flex justify-between border-b-2 border-gray-400 pb-2">
+        <h2 class="text-xl font-medium text-blue-900">Aggiungi Utente</h2>
+        <button tabindex="-1" mat-icon-button class="-mt-2 -mr-2" mat-dialog-close="">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <div>
+        <form [formGroup]="aggiungiUtenteForm" (ngSubmit)="aggiungiUtente()">
+            <mat-form-field class="w-full mb-4">
+                <mat-label>Nome e Cognome:</mat-label>
+                <input matInput type="text" formControlName="nomeCognome" placeholder="Nome Utente">
+            </mat-form-field>
+            <mat-form-field class="w-full mb-4">
+                <mat-label>Email:</mat-label>
+                <input matInput type="email" formControlName="email" placeholder="Email Utente">
+            </mat-form-field>
+            <mat-form-field class="w-full mb-4">
+                <mat-label>Genere:</mat-label>
+                <mat-select formControlName="genere">
+                    <mat-option value="male">Maschio</mat-option>
+                    <mat-option value="female">Femmina</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <mat-form-field class="w-full mb-4">
+                    <mat-label>Stato:</mat-label>
+                    <mat-select formControlName="stato">
+                        <mat-option value="active">Attivo</mat-option>
+                        <mat-option value="inactive">Inattivo</mat-option>
+                    </mat-select>
+            </mat-form-field>
+        </form>
+    </div>
+</div>
