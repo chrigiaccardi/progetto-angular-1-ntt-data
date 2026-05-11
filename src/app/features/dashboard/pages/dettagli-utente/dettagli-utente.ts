@@ -6,10 +6,11 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CardDashboard } from "../../../../shared/directives/card-dashboard";
 import { BtnIndietro } from "../../../../shared/components/btn-indietro/btn-indietro";
 import { PipeStatoPipe } from "../../../../shared/pipes/pipe-stato-pipe";
+import { MatButtonModule } from "@angular/material/button";
 
 @Component({
   selector: 'app-dettagli-utente',
-  imports: [MatIconModule, MatProgressSpinnerModule, CardDashboard, BtnIndietro, PipeStatoPipe],
+  imports: [MatIconModule, MatProgressSpinnerModule, CardDashboard, BtnIndietro, PipeStatoPipe, MatButtonModule],
   templateUrl: './dettagli-utente.html',
   styleUrl: './dettagli-utente.css',
 })
@@ -23,4 +24,5 @@ export default class DettagliUtente {
   constructor() {
     this.utentiStore.setIdUtente(this.idUtente)
   }
+
 }

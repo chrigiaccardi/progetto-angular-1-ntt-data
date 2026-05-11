@@ -39,4 +39,5 @@ export default class ListaUtenti {
       disableClose: false
     })
   }
+
 }

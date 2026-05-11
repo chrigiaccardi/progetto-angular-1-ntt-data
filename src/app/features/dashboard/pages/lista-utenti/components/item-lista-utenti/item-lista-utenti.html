@@ -1,6 +1,5 @@
-<div class="flex items-center p-3 m-2 justify-between rounded-lg hover:bg-blue-50 cursor-pointer"
-    [routerLink]="['/dashboard/dettagli-utente', utente().id]">
-    <div class="flex items-center gap-3">
+<div class="flex items-center p-3 m-2 justify-between rounded-lg hover:bg-blue-50">
+    <div class="flex items-center gap-3 cursor-pointer" [routerLink]="['/dashboard/dettagli-utente', utente().id]">
         <div
             class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold {{utente().gender === 'male' ? 'text-blue-600' : 'text-pink-600'}}">
             <mat-icon>account_box</mat-icon>
@@ -10,8 +9,14 @@
             <p class="text-xs text-gray-500">{{utente().email}}</p>
         </div>
     </div>
-    <span class="text-xs px-2 p-2 rounded-full 
-    {{utente().status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}}">
-        {{utente().status | pipeStato}}
-    </span>
+    <div class=" flex items-center gap-2">
+        <button matIconButton (click)="cancellaUtente(utente().id)" class="cursor-pointer text-red-500">
+            <mat-icon>delete_forever</mat-icon>
+        </button>
+        <span class="text-xs px-2 p-2 rounded-full w-15 text-center
+        {{utente().status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}}">
+            {{utente().status | pipeStato}}
+        </span>
+    </div>
+
 </div>

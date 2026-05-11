@@ -26,10 +26,10 @@ export class AggiungiUtenteDialog {
   // Dichiariamo che il form ha determinati campi,
   // Validatori si accerta che siano validi e required che sono obbligatori
   aggiungiUtenteForm = this.formBuilder.group({
-    name: ['', Validators.required],
-    email: ['', Validators.required],
-    gender: ['male', Validators.required],
-    status: ['active', Validators.required],
+    name: this.formBuilder.control<string>('', [Validators.required]),
+    email: this.formBuilder.control<string>('', [Validators.required]),
+    gender: this.formBuilder.control<'male' | 'female'>('male', [Validators.required]),
+    status: this.formBuilder.control<'active' | 'inactive'>('active', [Validators.required]),
   });
 
   aggiungiUtente() {
