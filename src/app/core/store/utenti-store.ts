@@ -1,7 +1,7 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
 import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
-import { HttpHeaders, httpResource } from '@angular/common/http';
+import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
 
 export type UtentiState = {
@@ -11,6 +11,7 @@ export type UtentiState = {
     itemXPagina: number;
     opzioniItemPagina: number[];
     selezioneIdUtente: string | undefined;
+    erroreAggiungiUtente: string
 }
 
 export const UtentiStore = signalStore(
@@ -23,11 +24,12 @@ export const UtentiStore = signalStore(
         paginaCorrente: 1,
         itemXPagina: 5,
         opzioniItemPagina: [5, 10, 20, 50],
-        selezioneIdUtente: undefined
+        selezioneIdUtente: undefined,
+        erroreAggiungiUtente: ''
     } as UtentiState),
 
 
-    withMethods((store, authService = inject(AuthService)) => {
+    withMethods((store, authService = inject(AuthService), http = inject(HttpClient)) => {
         // Utilizziamo httpResource per semplificare l'aggiornamento signal
         // avere in automatico valore richiesta, boolean per il caricamento
         // e il codice errore nel caso di malfunzionamento
@@ -50,7 +52,7 @@ export const UtentiStore = signalStore(
                 url: `${authService.url}/${idUtente}`,
                 method: 'GET',
                 headers: new HttpHeaders({
-                    'Authorizazion': `Bearer ${authService.tokenLocalStorage()}`
+                    'Authorization': `Bearer ${authService.tokenLocalStorage()}`
                 })
             }
         })
@@ -69,15 +71,28 @@ export const UtentiStore = signalStore(
                 rispostaUtenti.reload();
             },
             andareAPagina: signalMethod((numeroPagina: number) => {
-                patchState(store, {paginaCorrente: numeroPagina})
+                patchState(store, { paginaCorrente: numeroPagina })
             }),
             itemPerPagina: signalMethod<number>((nItem: number) => {
-                patchState(store, {itemXPagina: nItem})
+                patchState(store, { itemXPagina: nItem })
             }),
             setIdUtente: signalMethod<string>((idUtente: string) => {
-                patchState(store, {selezioneIdUtente: idUtente})
+                patchState(store, { selezioneIdUtente: idUtente })
+            }),
+            aggiungiUtente: signalMethod<Omit<Utente, 'id'>>((nuovoUtente) => {
+                http.post<Utente>(authService.url, nuovoUtente, {
+                    headers: new HttpHeaders({
+                        'Authorization': `Bearer ${authService.tokenLocalStorage()}`
+                    })
+                }).subscribe({
+                    next: (utenteCreato) => {
+                        rispostaUtenti.reload();
+                    },
+                    error: (err) => {
+                        patchState(store, { erroreAggiungiUtente: `Errore nell'aggiunta del nuovo utente: ${{ err }}` })
+                    }
+                })
             })
-            
         }
     }),
 
