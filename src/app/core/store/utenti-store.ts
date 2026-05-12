@@ -12,6 +12,7 @@ export type UtentiState = {
     opzioniItemPagina: number[];
     selezioneIdUtente: string | undefined;
     erroreAggiungiUtente: string;
+    filtroRicerca: string;
 }
 
 export const UtentiStore = signalStore(
@@ -26,6 +27,7 @@ export const UtentiStore = signalStore(
         opzioniItemPagina: [5, 10, 20, 50],
         selezioneIdUtente: undefined,
         erroreAggiungiUtente: '',
+        filtroRicerca: '',
     } as UtentiState),
 
 
@@ -36,7 +38,7 @@ export const UtentiStore = signalStore(
 
         const headersAutenticazione = new HttpHeaders({
             'Authorization': `Bearer ${authService.tokenLocalStorage()}`
-        });
+        })
 
         
         const rispostaUtenti = httpResource<Utente[]>(() => ({
@@ -44,7 +46,8 @@ export const UtentiStore = signalStore(
             method: 'GET',
             params: {
                 page: store.paginaCorrente(),
-                per_page: store.itemXPagina()
+                per_page: store.itemXPagina(),
+                name: store.filtroRicerca(),
             },
             headers: headersAutenticazione
         }));
@@ -61,7 +64,7 @@ export const UtentiStore = signalStore(
                 method: 'GET',
                 headers: headersAutenticazione
             }
-        })
+        });
 
         // nel return finale esportiamo i vari valori e colleghiamo i vari metodi di utilizzo
         return {
@@ -106,6 +109,13 @@ export const UtentiStore = signalStore(
                     next: () => {
                         rispostaUtenti.reload()
                     }
+                })
+            }),
+
+            setFiltroRicerca: signalMethod<string>((testo: string) => {
+                patchState(store, {
+                    filtroRicerca: testo,
+                    paginaCorrente: 1,
                 })
             })
         }

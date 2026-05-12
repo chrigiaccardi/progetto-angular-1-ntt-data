@@ -22,8 +22,12 @@ export class AuthService {
   // urlBase indica l'url di check per il bearer token
   url: string = 'https://gorest.co.in/public/v2/users';
 
+  // urlBase per quanto riguarda i Post
+  urlPost: string = 'https://gorest.co.in/public/v2/posts';
+
   // Recuperiamo il CodiceErrore
   codiceErrore = signal<number | null>(null);
+
 
   private readonly CHIAVE_TOKEN = 'tokenDiAccesso'
 
