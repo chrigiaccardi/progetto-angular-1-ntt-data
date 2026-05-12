@@ -1,7 +1,7 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from '@ngrx/signals'
 import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams, httpResource } from '@angular/common/http';
+import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
 
 export type UtentiState = {
