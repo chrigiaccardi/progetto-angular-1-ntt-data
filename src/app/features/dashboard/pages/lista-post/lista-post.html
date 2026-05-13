@@ -1,1 +1,41 @@
-<p>lista-post works!</p>
+<div class="mx-auto max-w-[1200px] p-3">
+    <app-btn-indietro [andareVerso]="'/dashboard/homepage'">Ritorna alla Homepage</app-btn-indietro>
+
+    <div cardDashboard class="">
+        <div class="border-b-1 border-gray-300 p-2 grid grid-cols-1 md:grid-cols-3 items-center">
+            <div class="flex md:justify-center mb-3">
+                <h2 class="font-extrabold text-xl text-blue-900">Lista Post Completa</h2>
+            </div>
+            <!-- <div class="flex md:justify-center mb-3">
+                <input type="text" matInput [formControl]="barraDiRicerca" (keyup.enter)="onRicercaClick()"
+                    placeholder="Filtra per nome / email" class="border border-gray-300 rounded-lg p-2 focus:ring-blue-200 w-full">
+                <button matIconButton (click)="onRicercaClick()" [disabled]="barraDiRicerca.invalid">
+                    <mat-icon>search</mat-icon>
+                </button>
+                @if (erroreRicerca()) {
+                <div class="flex md:justify-center items-center flex-col mb-3">
+                    <p class="text-red-500 text-xs rounded-lg bg-red-100 flex items-center justify-center p-2 mt-2 w-40">
+                        Ricerca non Valida</p>
+                </div>
+                }
+            </div>
+            <div class="flex md:justify-center mb-3">
+                <button matButton="text" class="w-40" (click)="apriDialogAggiungiUtente()">+ Aggiungi Utente</button>
+            </div> -->
+            <div class="flex items-center justify-center gap-5 mb-5">
+                @if(postsStore.caricamento()) {
+                <p class="text-xl text-bold text-blue-900 m-5">Caricamento Dati</p>
+                <mat-spinner class="!h-10 !w-10"></mat-spinner>
+                } @else if (postsStore.errore()) {
+                <p class="text-xl text-bold text-blue-900 m-5">Ops! {{postsStore.errore()}}</p>
+                } @else if(utentiStore.utenti() && utentiStore.utenti()?.length === 0) {
+                <p class="text-xl text-bold text-blue-900 m-5">Mi dispiace! La ricerca non ha dato nessun riscontro, 0 Utenti
+                    trovati.</p>
+                }
+            </div>
+            
+            @for (utente of utentiStore.utenti(); track utente.id) {
+            <app-item-lista-utenti [utente]="utente" />   }
+        </div>
+    </div>
+</div>
