@@ -3,10 +3,11 @@ import { BtnIndietro } from "../../../../shared/components/btn-indietro/btn-indi
 import { CardDashboard } from "../../../../shared/directives/card-dashboard";
 import { PostsStore } from '../../../../core/store/posts-store';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
+import { CardPost } from "./components/card-post/card-post";
 
 @Component({
   selector: 'app-lista-post',
-  imports: [BtnIndietro, CardDashboard, MatProgressSpinnerModule],
+  imports: [BtnIndietro, CardDashboard, MatProgressSpinnerModule, CardPost],
   templateUrl: './lista-post.html',
   styleUrl: './lista-post.css',
 })

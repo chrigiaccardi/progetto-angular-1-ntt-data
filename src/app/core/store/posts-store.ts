@@ -5,14 +5,13 @@ import { inject } from "@angular/core"
 import { AuthService } from "../services/auth-service/auth-service"
 
 export type PostState = {
-    posts: Post[]
     postSelezionato: Post | null
 }
 
 export const PostsStore = signalStore(
     { providedIn: 'root' },
+
     withState({
-        posts: [],
         postSelezionato: null,
     } as PostState),
     
@@ -29,7 +28,7 @@ export const PostsStore = signalStore(
         }));
 
         return {
-            post: rispostaPost.value,
+            posts: rispostaPost.value,
             caricamento: rispostaPost.isLoading,
             errore: rispostaPost.error,
 
