@@ -19,8 +19,8 @@ export const PostsStore = signalStore(
     withState({
         postSelezionato: null,
         paginaCorrente: 1,
-        itemXPagina: 5,
-        opzioniItemPagina: [5, 10, 20, 50],
+        itemXPagina: 6,
+        opzioniItemPagina: [6, 12, 18, 24],
         filtroRicerca: '',
     } as PostState),
     
@@ -85,7 +85,7 @@ export const PostsStore = signalStore(
                 })
             }),
 
-            getNomeUtente: (userId: number): string => {
+            getNomeUtente: (userId: string): string => {
                 const nomeUtente = rispostaIdNomeUtenti.value()?.find(u => u.id === userId)
                 return nomeUtente?.name ?? 'Sconosciuto'
             }

@@ -1,29 +1,21 @@
-<!-- <div cardDashboard class="flex flex-col items-center !p-2">
-    <div class="flex items-center justify-between">
-        <h2 class="text-blue-900">{{post().title}}</h2>
-        <p class="items-end text-[10px] text-gray-400 h-10 w-30 ">ID Post: #{{post().id}}</p>
-    </div>
-    <div class=""></div>
-    <div class=""></div>
-</div> -->
 <div class="bg-white rounded-xl shadow-xl border border-slate-200 h-full">
 
-    <!-- 1️⃣ HEADER: Titolo + ID in alto a dx -->
+    <!-- HEADER: Titolo + ID in alto a dx -->
         <div class="flex justify-between items-center px-5 pt-5 pb-3 border-b border-slate-100">
             <h2 class="text-lg text-blue-900 font-semibold line-clamp-1">{{post().title}}</h2>
         </div>
 
-    <!-- 2️⃣ BODY: Contenuto snippet -->
+    <!-- BODY: Contenuto snippet -->
     <div class="px-5 py-4">
         <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">{{post().body}}</p>
     </div>
 
-    <!-- 3️⃣ FOOTER: Creatore cliccabile -->
+    <!-- FOOTER: Creatore cliccabile  e ID post-->
     <div class="px-5 py-3 bg-slate-50 border-t border-slate-100">
         <span class="flex items-center gap-2"> Creato da:
-            <a target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer">
-            <span class="font-medium">{{postsStore.getNomeUtente(post().user_id}}</span>
-        </a>
+                <a rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer" [routerLink]="postsStore.getNomeUtente(post().user_id) === 'Sconosciuto' ? 'null' : ['/dashboard/dettagli-utente', post().user_id]">
+                    <span class="font-medium">{{postsStore.getNomeUtente(post().user_id)}}</span>
+                </a>
         </span>
         
         <span class="text-[10px] text-gray-500 w-40"> ID Post: #{{post().id}}</span>

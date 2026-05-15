@@ -1,4 +1,4 @@
-<div class="max-w-[1200px] mx-auto">
+<div class="max-w-[1200px] mx-auto p-3">
     <app-btn-indietro [andareVerso]="'/dashboard/lista-utenti'">Ritorna alla Lista Utenti</app-btn-indietro>
 
     @if (utentiStore.caricamentoDettagliUtente()) {
@@ -9,7 +9,7 @@
 
     } @else {
     <!-- Header Profilo Utente -->
-    <div class="rounded-xl border border-gray-200 shadow-sm overflow-hidden m-5 bg-white">
+    <div class="rounded-xl border border-gray-200 shadow-sm overflow-hidden bg-white">
         <!-- Background Header -->
         <div class="h-32 bg-gradient-to-r from-yellow-400"></div>
         <!-- Info Utente -->

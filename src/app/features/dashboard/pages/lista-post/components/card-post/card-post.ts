@@ -2,10 +2,11 @@ import { Component, inject, input } from '@angular/core';
 import { Post } from '../../../../../../core/models/post';
 import { UtentiStore } from '../../../../../../core/store/utenti-store';
 import { PostsStore } from '../../../../../../core/store/posts-store';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-card-post',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './card-post.html',
   styleUrl: './card-post.css',
 })

@@ -6,11 +6,15 @@ import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CardPost } from "./components/card-post/card-post";
 import { MatIconModule } from "@angular/material/icon";
 import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from "@angular/material/input";
+import { MatButtonModule } from '@angular/material/button';
+import { MatSuffix, MatPrefix } from '@angular/material/input';
+
 
 
 @Component({
   selector: 'app-lista-post',
-  imports: [BtnIndietro, CardDashboard, MatProgressSpinnerModule, CardPost, MatIconModule, ReactiveFormsModule],
+  imports: [BtnIndietro, CardDashboard, MatProgressSpinnerModule, CardPost, MatIconModule, ReactiveFormsModule, MatButtonModule, MatInputModule, MatPrefix, MatSuffix],
   templateUrl: './lista-post.html',
   styleUrl: './lista-post.css',
 })
