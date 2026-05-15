@@ -10,7 +10,7 @@
 
     <!-- 1️⃣ HEADER: Titolo + ID in alto a dx -->
         <div class="flex justify-between items-center px-5 pt-5 pb-3 border-b border-slate-100">
-            <h2 class="text-lg font-semibold text-slate-800 line-clamp-1">{{post().title}}</h2>
+            <h2 class="text-lg text-blue-900 font-semibold line-clamp-1">{{post().title}}</h2>
         </div>
 
     <!-- 2️⃣ BODY: Contenuto snippet -->
@@ -20,10 +20,12 @@
 
     <!-- 3️⃣ FOOTER: Creatore cliccabile -->
     <div class="px-5 py-3 bg-slate-50 border-t border-slate-100">
-        <a target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 hover:text-blue-600">
-            <span class="font-medium">Marco Rossi</span>
-            <!-- icona "apri in nuova scheda" -->
+        <span class="flex items-center gap-2"> Creato da:
+            <a target="_blank" rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer">
+            <span class="font-medium">{{postsStore.getNomeUtente(post().user_id}}</span>
         </a>
+        </span>
+        
         <span class="text-[10px] text-gray-500 w-40"> ID Post: #{{post().id}}</span>
     </div>
 

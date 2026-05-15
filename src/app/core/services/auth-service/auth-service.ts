@@ -20,7 +20,7 @@ export class AuthService {
   utenteLoggato = signal<boolean>(false);
 
   // urlBase indica l'url di check per il bearer token
-  url: string = 'https://gorest.co.in/public/v2/users';
+  urlUtenti: string = 'https://gorest.co.in/public/v2/users';
 
   // urlBase per quanto riguarda i Post
   urlPost: string = 'https://gorest.co.in/public/v2/posts';
@@ -63,7 +63,7 @@ export class AuthService {
         Autorizzazione: 'Bearer ${token}'
       })
     
-    this.http.get<boolean>(this.url, {
+    this.http.get<boolean>(this.urlUtenti, {
       headers, observe: 'response'
     }).subscribe({
       next: (response) => {

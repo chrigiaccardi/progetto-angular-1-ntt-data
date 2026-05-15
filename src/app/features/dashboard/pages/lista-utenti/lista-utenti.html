@@ -7,10 +7,10 @@
                 <h2 class="font-extrabold text-xl text-blue-900">Lista Utenti Completa</h2>
             </div>
             <div class="flex md:justify-center mb-3">
-                <input type="text" matInput [formControl]="barraDiRicerca" (keyup.enter)="onRicercaClick()"
+                <input type="text" matInput [formControl]="barraDiRicercaUtenti" (keyup.enter)="onRicercaClick()"
                     placeholder="Filtra per nome / email"
                     class="border border-gray-300 rounded-lg p-2 focus:ring-blue-200 w-full">
-                    <button matIconButton (click)="onRicercaClick()" [disabled]="barraDiRicerca.invalid">
+                    <button matIconButton (click)="onRicercaClick()" [disabled]="barraDiRicercaUtenti.invalid">
                         <mat-icon>search</mat-icon>
                     </button>
                 @if (erroreRicerca()) {

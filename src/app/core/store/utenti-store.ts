@@ -42,7 +42,7 @@ export const UtentiStore = signalStore(
 
         
         const rispostaUtenti = httpResource<Utente[]>(() => ({
-            url: authService.url,
+            url: authService.urlUtenti,
             method: 'GET',
             params: {
                 page: store.paginaCorrente(),
@@ -60,7 +60,7 @@ export const UtentiStore = signalStore(
             if (!idUtente) return undefined;
 
             return {
-                url: `${authService.url}/${idUtente}`,
+                url: `${authService.urlUtenti}/${idUtente}`,
                 method: 'GET',
                 headers: headersAutenticazione
             }
@@ -90,7 +90,7 @@ export const UtentiStore = signalStore(
             }),
 
             aggiungiUtente: signalMethod<Omit<Utente, 'id'>>((nuovoUtente) => {
-                http.post<Utente>(authService.url, nuovoUtente, {
+                http.post<Utente>(authService.urlUtenti, nuovoUtente, {
                     headers: headersAutenticazione
                 }).subscribe({
                     next: (utenteCreato) => {
@@ -103,7 +103,7 @@ export const UtentiStore = signalStore(
             }),
 
             cancellaUtente: signalMethod<number>((idUtente) => {
-                http.delete<number>(`${authService.url}/${idUtente}`, {
+                http.delete<number>(`${authService.urlUtenti}/${idUtente}`, {
                     headers: headersAutenticazione
                 }).subscribe({
                     next: () => {

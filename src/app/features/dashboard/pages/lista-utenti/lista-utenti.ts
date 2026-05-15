@@ -43,7 +43,7 @@ export default class ListaUtenti {
   };
 
   // Selezioniamo il form per la barra di ricerca
-  barraDiRicerca = new FormControl<string>('', {
+  barraDiRicercaUtenti = new FormControl<string>('', {
     nonNullable: true, // Possono esserci valori null e si resettano in automatico (nonNullableFormBuilder)
     validators: [Validators.minLength(2)] // la ricerca è valida solamente dopo i primi 2 caratteri - gestione performance
   })
@@ -53,12 +53,12 @@ export default class ListaUtenti {
   // Metodo ricerca per il bottone
   onRicercaClick() {
     // Controlla che il form sia valido
-    if (this.barraDiRicerca.invalid) {
+    if (this.barraDiRicercaUtenti.invalid) {
       this.erroreRicerca.set(true)
       return
     }
     // Prendiamo il valore dal form
-    const testoRicerca = this.barraDiRicerca.value;
+    const testoRicerca = this.barraDiRicercaUtenti.value;
     // Chiamiamo il metodo nello store
     this.utentiStore.setFiltroRicerca(testoRicerca);
   }
