@@ -13,11 +13,8 @@ import { RouterLink } from "@angular/router";
 export class CardPost {
   // Istanziamo l'input per il binding di informazioni
   post = input.required<Post>()
-
   //Iniettiamo l'utentiStore per poterlo utilizzare
   utentiStore = inject(UtentiStore)
   // Iniettiamo postStore per poterlo utilizzare
   postsStore = inject(PostsStore)
-  
-
 }
