@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +20,14 @@ export class AuthService {
   // userLoggato indica se l'utente è loggato oppure no
   utenteLoggato = signal<boolean>(false);
 
-  // urlBase indica l'url di check per il bearer token
-  urlUtenti: string = 'https://gorest.co.in/public/v2/users';
+  // Iniettiamo l'apiUrl da environment
+  apiUrl = environment.apiUrl
 
-  // urlBase per quanto riguarda i Post
-  urlPost: string = 'https://gorest.co.in/public/v2/posts';
+  // urlUtenti indica l'url di check per il bearer token
+  urlUtenti: string = `${this.apiUrl}/users`;
+
+  // urlPost per quanto riguarda i Post
+  urlPost: string = `${this.apiUrl}/posts`;
 
   // Recuperiamo il CodiceErrore
   codiceErrore = signal<number | null>(null);

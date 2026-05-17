@@ -1,5 +1,5 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals"
-import { Post } from "../models/post"
+import { AggiungiPost, Post } from "../models/post"
 import { HttpClient, HttpHeaders, httpResource } from "@angular/common/http"
 import { computed, inject } from "@angular/core"
 import { AuthService } from "../services/auth-service/auth-service"
@@ -12,6 +12,8 @@ export type PostState = {
     filtroRicerca: string;
     erroreAggiungiPost: string;
 }
+
+
 
 export const PostsStore = signalStore(
     { providedIn: 'root' },
@@ -91,8 +93,8 @@ export const PostsStore = signalStore(
                 return nomeUtente?.name ?? 'Sconosciuto'
             },
 
-            aggiungiPost: signalMethod<Omit<Post,'id' | 'userId'>>((nuovoPost) => {
-                http.post<Post>(authService.urlPost, nuovoPost, {
+            aggiungiPost: signalMethod<AggiungiPost>(({userId, nuovoPost}) => {
+                http.post<Post>(`${authService.apiUrl}/users/${userId}/posts`, nuovoPost, {
                     headers: headersAutenticazione
                 }).subscribe({
                     next: (postCreato) => {
@@ -103,7 +105,7 @@ export const PostsStore = signalStore(
                     }
                 })
             }),
-
+  
             cancellaPost: signalMethod<number>((idPost) => {
                 http.delete<number>(`${authService.urlPost}/${idPost}`, {
                     headers: headersAutenticazione

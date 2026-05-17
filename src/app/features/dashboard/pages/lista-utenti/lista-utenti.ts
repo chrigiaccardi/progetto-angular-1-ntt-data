@@ -46,7 +46,7 @@ export default class ListaUtenti {
   barraDiRicercaUtenti = new FormControl<string>('', {
     nonNullable: true, // Possono esserci valori null e si resettano in automatico (nonNullableFormBuilder)
     validators: [Validators.minLength(2)] // la ricerca è valida solamente dopo i primi 2 caratteri - gestione performance
-  })
+  });
 
   erroreRicerca = signal(false)
 
@@ -61,5 +61,5 @@ export default class ListaUtenti {
     const testoRicerca = this.barraDiRicercaUtenti.value;
     // Chiamiamo il metodo nello store
     this.utentiStore.setFiltroRicerca(testoRicerca);
-  }
+  };
 }

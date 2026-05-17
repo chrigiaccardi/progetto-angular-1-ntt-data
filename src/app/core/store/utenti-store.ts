@@ -3,6 +3,7 @@ import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
+import { Observable, of } from 'rxjs';
 
 export type UtentiState = {
     utenteCorrente: Utente | null;
@@ -13,6 +14,7 @@ export type UtentiState = {
     selezioneIdUtente: string | undefined;
     erroreAggiungiUtente: string;
     filtroRicerca: string;
+    ADMIN_EMAIL: string;
 }
 
 export const UtentiStore = signalStore(
@@ -28,6 +30,7 @@ export const UtentiStore = signalStore(
         selezioneIdUtente: undefined,
         erroreAggiungiUtente: '',
         filtroRicerca: '',
+        ADMIN_EMAIL: 'admincitysharehub@admin.it'
     } as UtentiState),
 
 
@@ -40,6 +43,15 @@ export const UtentiStore = signalStore(
             'Authorization': `Bearer ${authService.tokenLocalStorage()}`
         })
 
+        const creaAdmin = () => {
+            return http.post<Utente>(authService.urlUtenti, {
+                name: 'Admin CityShare Hub',
+                email: store.ADMIN_EMAIL,
+                gender: 'male',
+                status: 'active',
+            }, { headers: headersAutenticazione }
+            )
+        }
         
         const rispostaUtenti = httpResource<Utente[]>(() => ({
             url: authService.urlUtenti,
@@ -98,6 +110,26 @@ export const UtentiStore = signalStore(
                     },
                     error: (err) => {
                         patchState(store, { erroreAggiungiUtente: `Errore nell'aggiunta del nuovo utente: ${{ err }}` })
+                    }
+                })
+            }),
+
+            // Creiamo questo metodo per controllare se l'Admin è già esistente oppure no per la creazione del Post
+            controlloAdmin(): Observable<Utente> {
+                const utenti = rispostaUtenti.value() ?? [];
+                const utenteEsiste = utenti.find(u => u.email === store.ADMIN_EMAIL())
+                
+                if (utenteEsiste) {
+                    return of(utenteEsiste)
+                }
+                
+                // Visto lo scope ho creato una nuova richiesta generica
+                return creaAdmin().subscribe({
+                    next: (adminCreato) => {
+                        rispostaUtenti.reload()
+                    },
+                    error: (err) => {
+                        patchState(store, { erroreAggiungiUtente: 'Errore nella creazione Admin' })
                     }
                 })
             }),
