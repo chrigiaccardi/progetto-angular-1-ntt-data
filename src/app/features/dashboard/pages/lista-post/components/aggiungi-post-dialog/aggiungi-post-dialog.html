@@ -1,1 +1,22 @@
-<p>aggiungi-post-dialog works!</p>
+<div class="p-8 max-w-[400px] flex flex-col">
+    <!-- Dividiamo il dialog in due sezioni separate: Titolo e Body -->
+    <div class="flex justify-between border-b-2 border-gray-400 pb-2">
+        <h2 mat-dialog-title class="!text-blue-900">Aggiungi Nuovo Post</h2>
+        <button tabindex="-1" mat-icon-button class="-mt-2 -mr-2">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content>
+        <form [formGroup]="aggiungiPostForm" (ngSubmit)="aggiungiPost()">
+            <mat-form-field>
+                <mat-label>Titolo:</mat-label>
+                <input type="text" formControlName="title" placeholder="Inserisci un Titolo">
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Contenuto:</mat-label>
+                <textarea formControlName="body" >
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+</div>
