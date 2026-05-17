@@ -3,7 +3,7 @@ import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
-import { Observable, of } from 'rxjs';
+import { catchError, Observable, of, tap, throwError } from 'rxjs';
 
 export type UtentiState = {
     utenteCorrente: Utente | null;
@@ -46,7 +46,7 @@ export const UtentiStore = signalStore(
         const creaAdmin = () => {
             return http.post<Utente>(authService.urlUtenti, {
                 name: 'Admin CityShare Hub',
-                email: store.ADMIN_EMAIL,
+                email: store.ADMIN_EMAIL(),
                 gender: 'male',
                 status: 'active',
             }, { headers: headersAutenticazione }
@@ -124,18 +124,19 @@ export const UtentiStore = signalStore(
                 }
                 
                 // Visto lo scope ho creato una nuova richiesta generica
-                return creaAdmin().subscribe({
-                    next: (adminCreato) => {
-                        rispostaUtenti.reload()
-                    },
-                    error: (err) => {
-                        patchState(store, { erroreAggiungiUtente: 'Errore nella creazione Admin' })
-                    }
-                })
-            }),
+                return creaAdmin().pipe(
+                    tap(() => {
+                        rispostaUtenti.reload();
+                    }),
+                    catchError(err => {
+                        patchState(store, { erroreAggiungiUtente: 'Errore nella creazione Admin' });
+                        return throwError(() => err)
+                    })
+                )
+            },
 
-            cancellaUtente: signalMethod<number>((idUtente) => {
-                http.delete<number>(`${authService.urlUtenti}/${idUtente}`, {
+            cancellaUtente: signalMethod<string>((idUtente) => {
+                http.delete<string>(`${authService.urlUtenti}/${idUtente}`, {
                     headers: headersAutenticazione
                 }).subscribe({
                     next: () => {

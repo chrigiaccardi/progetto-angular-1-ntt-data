@@ -23,7 +23,7 @@ export class ItemListaUtenti {
   utentiStore = inject(UtentiStore)
 
   // Creiamo il metodo per poter cancellare l'utente
-  cancellaUtente(idUtente: number) {
+  cancellaUtente(idUtente: string) {
     this.utentiStore.cancellaUtente(idUtente)
   }
 }

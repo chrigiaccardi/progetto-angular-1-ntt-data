@@ -88,13 +88,13 @@ export const PostsStore = signalStore(
                 })
             }),
 
-            getNomeUtente: (userId: string): string => {
-                const nomeUtente = rispostaIdNomeUtenti.value()?.find(u => u.id === userId)
+            getNomeUtente: (user_id: string): string => {
+                const nomeUtente = rispostaIdNomeUtenti.value()?.find(u => u.id === user_id)
                 return nomeUtente?.name ?? 'Sconosciuto'
             },
 
-            aggiungiPost: signalMethod<AggiungiPost>(({userId, nuovoPost}) => {
-                http.post<Post>(`${authService.apiUrl}/users/${userId}/posts`, nuovoPost, {
+            aggiungiPost: signalMethod<Omit<Post, 'id'>>((nuovoPost) => {
+                http.post<Post>(`${authService.apiUrl}/users/${nuovoPost.user_id}/posts`, nuovoPost, {
                     headers: headersAutenticazione
                 }).subscribe({
                     next: (postCreato) => {

@@ -1,11 +1,11 @@
 export interface Post {
-    id: number;
-    userId: string;
+    id: string;
+    user_id: string;
     title: string;
     body: string;
 }
 
 export type AggiungiPost = {
-    userId: string;
+    user_id: string;
     nuovoPost: Omit<Post, 'id'>
 }

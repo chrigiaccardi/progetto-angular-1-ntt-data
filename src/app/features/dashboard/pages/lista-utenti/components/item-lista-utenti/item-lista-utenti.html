@@ -10,13 +10,15 @@
         </div>
     </div>
     <div class=" flex items-center gap-2">
+
+        <span class="text-xs px-2 p-2 rounded-full w-15 text-center
+                {{utente().status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}}">
+            {{utente().status | pipeStato}}
+        </span>
+
         <button matIconButton (click)="cancellaUtente(utente().id)" class="cursor-pointer text-red-500">
             <mat-icon>delete_forever</mat-icon>
         </button>
-        <span class="text-xs px-2 p-2 rounded-full w-15 text-center
-        {{utente().status === 'active' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}}">
-            {{utente().status | pipeStato}}
-        </span>
     </div>
 
 </div>

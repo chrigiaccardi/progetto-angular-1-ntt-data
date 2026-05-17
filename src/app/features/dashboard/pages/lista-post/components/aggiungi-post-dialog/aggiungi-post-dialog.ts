@@ -7,6 +7,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
 import { UtentiStore } from '../../../../../../core/store/utenti-store';
+import { Post } from '../../../../../../core/models/post';
 
 
 @Component({
@@ -35,7 +36,16 @@ export class AggiungiPostDialog {
     // Istanziamo i dati del form
     const postData = this.aggiungiPostForm.getRawValue()
 
-    // Controlliamo che esista un admin nell'elenco utenti per creare il post
-    
+    this.utentiStore.controlloAdmin().subscribe({
+      next: (admin) => {
+        const nuovoPost: Omit<Post, 'id'> = {
+          user_id: admin.id,
+          title: postData.title,
+          body: postData.body,
+        }
+        this.utentiStore.caricareListaUtenti();
+        this.postsStore.aggiungiPost(nuovoPost);
+      }
+    })
   }
 }
