@@ -5,7 +5,7 @@ import { computed, inject } from "@angular/core"
 import { AuthService } from "../services/auth-service/auth-service"
 
 export type PostState = {
-    postSelezionato: Post | null
+    postSelezionato: Post | null;
     paginaCorrente: number;
     itemXPagina: number;
     opzioniItemPagina: number[];

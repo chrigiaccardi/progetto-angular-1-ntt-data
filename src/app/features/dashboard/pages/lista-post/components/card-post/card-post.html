@@ -1,24 +1,27 @@
 <div class="bg-white rounded-xl shadow-xl border border-slate-200 h-full">
 
     <!-- HEADER: Titolo + ID in alto a dx -->
-        <div class="flex justify-between items-center px-5 pt-5 pb-3 border-b border-slate-100">
-            <h2 class="text-lg text-blue-900 font-semibold line-clamp-1">{{post().title}}</h2>
-        </div>
+    <div class="flex justify-between items-center px-5 pt-5 pb-3 border-b border-slate-100">
+        <h2 class="text-lg text-blue-900 font-semibold line-clamp-1">{{post().title}}</h2>
+    </div>
 
     <!-- BODY: Contenuto snippet -->
     <div class="px-5 py-4">
-        <p class="text-sm text-slate-600 leading-relaxed line-clamp-3">{{post().body}}</p>
+        <p class="text-sm text-slate-600 leading-relaxed" [class.line-clamp-3]="!espansione()">{{post().body}}</p>
     </div>
-
+    <div class="flex justify-around mb-1">
+        <button matButton class="!bg-blue-100" (click)="leggiTutto()">{{espansione() ? 'Mostra Meno' : 'Leggi Tutto'}}</button>
+        <button matButton class="!bg-blue-100">Commenti</button>
+    </div>
     <!-- FOOTER: Creatore cliccabile  e ID post-->
-    <div class="px-5 py-3 bg-slate-50 border-t border-slate-100">
+
+    <div class="px-5 py-3 bg-slate-100 border-t border-slate-100 ">
         <span class="flex items-center gap-2"> Creato da:
-                <a rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer" [routerLink]="postsStore.getNomeUtente(post().user_id) === 'Sconosciuto' ? 'null' : ['/dashboard/dettagli-utente', post().user_id]">
-                    <span class="font-medium">{{postsStore.getNomeUtente(post().user_id)}}</span>
-                </a>
+            <a rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer"
+                [routerLink]="postsStore.getNomeUtente(post().user_id) === 'Sconosciuto' ? 'null' : ['/dashboard/dettagli-utente', post().user_id]">
+                <span class="font-medium">{{postsStore.getNomeUtente(post().user_id)}}</span>
+            </a>
         </span>
-        
         <span class="text-[10px] text-gray-500 w-40"> ID Post: #{{post().id}}</span>
     </div>
-
 </div>
