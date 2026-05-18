@@ -11,11 +11,45 @@
     </div>
     <div class="flex justify-around mb-1">
         <button matButton class="!bg-blue-100" (click)="leggiTutto()">{{espansione() ? 'Mostra Meno' : 'Leggi Tutto'}}</button>
-        <button matButton class="!bg-blue-100">Commenti</button>
+        <button matButton class="!bg-blue-100" (click)="commentiStore.selezionaPost(post().id)">
+            <mat-icon>chat_bubble_outline</mat-icon> Commenti {{commentiStore.postIdSelezionato() === post().id ? `(${commentiStore.numeroCommenti()})`: ``}}
+        </button>
     </div>
-    <!-- FOOTER: Creatore cliccabile  e ID post-->
 
-    <div class="px-5 py-3 bg-slate-100 border-t border-slate-100 ">
+    <!-- Se si clicca su commenti allora viene creata una nuova sezione -->
+ 
+        @if (commentiStore.postIdSelezionato() === post().id) {
+            <div class="flex items-center justify-center gap-3">
+                @if (commentiStore.caricamentoCommenti()) {
+                    <p class="text-bold text-blue-900 m-5">Caricamento Commenti</p>
+                    <mat-spinner class="!h-2 !w-2"></mat-spinner>
+                } @else if (commentiStore.erroreCommenti()) {
+                    <p class="text-xl text-bold text-blue-900 m-5">Ops! {{commentiStore.erroreCommenti()}}</p>
+                } @else if (commentiStore.commentiPost() && commentiStore.commentiPost()?.length === 0) {
+                    <p class="text-bold text-blue-900 m-5">Non è presente alcun commento per questo post!</p>
+                }
+            </div>
+
+            <!-- Commenti del post Selezionato -->
+            @for (commento of commentiStore.commentiPost(); track commento.id) {
+            <app-lista-commenti-post [commento]="commento" />
+            }
+
+            <!-- Form per scrivere un nuovo commento -->
+            <form [formGroup]="aggiungiCommentoForm" (ngSubmit)="aggiungiCommento()" class="flex items-center gap-3 m-2">
+                <mat-form-field class="w-full" appearance="outline">
+                    <mat-label>Commento:</mat-label>
+                    <input matInput type="text" formControlName="body" placeholder="Inserisci un commento">
+                </mat-form-field>
+                <button mat-mini-fab [disabled]="aggiungiCommentoForm.invalid" type="submit">
+                    <mat-icon>send</mat-icon>
+                </button>
+            </form>
+        }
+      
+ 
+    <!-- FOOTER: Creatore cliccabile  e ID post-->
+    <div class="px-5 py-3 bg-slate-100 border-t border-slate-100">
         <span class="flex items-center gap-2"> Creato da:
             <a rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer"
                 [routerLink]="postsStore.getNomeUtente(post().user_id) === 'Sconosciuto' ? 'null' : ['/dashboard/dettagli-utente', post().user_id]">

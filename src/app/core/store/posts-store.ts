@@ -97,7 +97,7 @@ export const PostsStore = signalStore(
                 http.post<Post>(`${authService.apiUrl}/users/${nuovoPost.user_id}/posts`, nuovoPost, {
                     headers: headersAutenticazione
                 }).subscribe({
-                    next: (postCreato) => {
+                    next: () => {
                         rispostaPost.reload()
                     },
                     error: (err) => {
