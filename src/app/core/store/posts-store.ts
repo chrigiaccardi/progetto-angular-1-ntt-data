@@ -60,6 +60,12 @@ export const PostsStore = signalStore(
             headers: headersAutenticazione,
         }))
 
+        const rispostaPostDettagliUtente = httpResource<Post[]>(() => ({
+            url: `${authService.apiUrl}/${store.idUtenteSelezionato()}/posts`,
+            method: 'GET',
+            headers: headersAutenticazione,
+        }))
+
         return {
             posts: rispostaPost.value,
             caricamento: rispostaPost.isLoading,
@@ -68,6 +74,11 @@ export const PostsStore = signalStore(
             idNomeUtenti: rispostaIdNomeUtenti.value,
             caricamentoIdNomeUtenti: rispostaIdNomeUtenti.isLoading,
             erroreIdNomeUtenti: rispostaIdNomeUtenti.error,
+
+            postsDettagliUtente: rispostaPostDettagliUtente.value,
+            caricamentoPostsDettagliUtente: rispostaPostDettagliUtente.isLoading,
+            errorePostsDettagliUtente: rispostaPostDettagliUtente.error,
+
 
             caricarePost: () => {
                 rispostaPost.reload();

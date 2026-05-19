@@ -3,7 +3,7 @@ import { Utente } from '../models/utente';
 import { computed, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
-import { catchError, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { Toaster } from '../services/toaster/toaster';
 
 export type UtentiState = {
@@ -53,6 +53,13 @@ export const UtentiStore = signalStore(
             }, { headers: headersAutenticazione }
             )
         }
+
+        const cercaAdmin = () => {
+            return http.get<Utente[]>(authService.urlUtenti, {
+                params: { email: store.ADMIN_EMAIL() },
+                headers: headersAutenticazione
+            })
+        }
         
         const rispostaUtenti = httpResource<Utente[]>(() => ({
             url: authService.urlUtenti,
@@ -89,6 +96,7 @@ export const UtentiStore = signalStore(
             caricamentoDettagliUtente: rispostaDettagliUTente.isLoading,
             erroreDettaliUtente: rispostaDettagliUTente.error,
 
+
             caricareListaUtenti: () => {
                 rispostaUtenti.reload();
             },
@@ -120,23 +128,23 @@ export const UtentiStore = signalStore(
 
             // Creiamo questo metodo per controllare se l'Admin è già esistente oppure no per la creazione del Post
             controlloAdmin(): Observable<Utente> {
-                const utenti = rispostaUtenti.value() ?? [];
-                const utenteEsiste = utenti.find(u => u.email === store.ADMIN_EMAIL())
-                
-                if (utenteEsiste) {
-                    return of(utenteEsiste)
-                }
-                
-                // Visto lo scope ho creato una nuova richiesta generica
-                return creaAdmin().pipe(
-                    tap(() => {
-                        rispostaUtenti.reload();
-                        toaster.successo('Admin creato con successo')
-                    }),
-                    catchError(err => {
-                        patchState(store, { erroreAggiungiUtente: 'Errore nella creazione Admin' });
-                        toaster.errore(`Errore nella creazione dell'Admin: ${err}`)
-                        return throwError(() => err)
+                return cercaAdmin().pipe(
+                    switchMap((utenti) => {
+                        const utenteEsiste = utenti[0]
+                        if (utenteEsiste) {
+                            return of (utenteEsiste)
+                        }
+                        return creaAdmin().pipe(
+                            tap(() => {
+                                rispostaUtenti.reload();
+                                toaster.successo('Admin creato con successo')
+                            }),
+                            catchError(err => {
+                                patchState(store, { erroreAggiungiUtente: 'Errore nella creazione Admin' });
+                                toaster.errore(`Errore nella creazione dell'Admin: ${err}`)
+                                return throwError(() => err)
+                            })
+                        )
                     })
                 )
             },
