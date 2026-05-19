@@ -39,9 +39,43 @@
             </div>
         </div>
 
-        <!-- Sezione Post e Commenti -->
-         <!-- @for (post of ; track $index) {} -->
-        
+        @if(postsStore.postsDettagliUtente()) {
+        <h3 class="text-blue-900 font-bold text-xl m-5">Post Pubblicati ({{postsStore.postsDettagliUtente()?.length}})</h3>
+        }
+        <mat-accordion>
+            @for (post of postsStore.postsDettagliUtente(); track post.id) {
+
+            <mat-expansion-panel class="border border-gray-200 overflow-hidden mb-2" (opened)="commentiStore.setIdPost(post.id)">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>{{post.title}}</mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p class="m-5">{{post.body}}</p>
+
+                <div class="border-t border-gray-200">
+                    <h4 class="text-blue-900 font-bold m-5">Commenti ({{commentiStore.commentiPost()?.length}})</h4>
+                    @if (commentiStore.commentiPost()?.length === 0) {
+                        <p class="font-bold m-5"> Non ci sono commenti. Inserisci tu il primo!!</p>
+                    }
+                    @for (commento of commentiStore.commentiPost(); track commento.id) {
+                    <app-lista-commenti-post [commento]="commento"/>
+                    }
+                    <!-- Form per scrivere un nuovo commento -->
+                    <form [formGroup]="aggiungiCommentoForm" (ngSubmit)="aggiungiCommento()"
+                        class="flex items-center gap-3 m-2">
+                        <mat-form-field class="w-full" appearance="outline">
+                            <mat-label>Commento:</mat-label>
+                            <input matInput type="text" formControlName="body" placeholder="Inserisci un commento">
+                        </mat-form-field>
+                        <button mat-mini-fab [disabled]="aggiungiCommentoForm.invalid" type="submit">
+                            <mat-icon>send</mat-icon>
+                        </button>
+                    </form>
+                </div>
+
+            </mat-expansion-panel>
+             }
+        </mat-accordion>
     </div>
     }
 </div>

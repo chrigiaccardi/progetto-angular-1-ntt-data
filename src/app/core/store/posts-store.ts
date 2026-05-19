@@ -12,6 +12,7 @@ export type PostState = {
     opzioniItemPagina: number[];
     filtroRicerca: string;
     erroreAggiungiPost: string;
+    idUtenteSelezionato: string;
 }
 
 
@@ -26,6 +27,7 @@ export const PostsStore = signalStore(
         opzioniItemPagina: [6, 12, 18, 24],
         filtroRicerca: '',
         erroreAggiungiPost: '',
+        idUtenteSelezionato: '',
     } as PostState),
     
     withMethods((store, authService = inject(AuthService), http = inject(HttpClient), toaster = inject(Toaster)) => {
@@ -61,7 +63,7 @@ export const PostsStore = signalStore(
         }))
 
         const rispostaPostDettagliUtente = httpResource<Post[]>(() => ({
-            url: `${authService.apiUrl}/${store.idUtenteSelezionato()}/posts`,
+            url: `${authService.apiUrl}/users/${store.idUtenteSelezionato()}/posts`,
             method: 'GET',
             headers: headersAutenticazione,
         }))
@@ -100,8 +102,13 @@ export const PostsStore = signalStore(
                 })
             }),
 
-            getNomeUtente: (user_id: string): string => {
-                const nomeUtente = rispostaIdNomeUtenti.value()?.find(u => u.id === user_id)
+            setIdUtente: signalMethod<string>((idUtente: string) => {
+                patchState(store, { idUtenteSelezionato: idUtente })
+                console.log('Utente:', idUtente)
+            }),
+
+            getNomeUtente: (idUtente: string): string => {
+                const nomeUtente = rispostaIdNomeUtenti.value()?.find(u => u.id === idUtente)
                 return nomeUtente?.name ?? 'Sconosciuto'
             },
 

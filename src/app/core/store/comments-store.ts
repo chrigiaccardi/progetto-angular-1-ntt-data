@@ -16,7 +16,7 @@ export const CommentiStore = signalStore(
 
     withState({
         postIdSelezionato: null,
-        erroreAggiungiCommento: ''
+        erroreAggiungiCommento: '',
     } as CommentoState),
 
     withMethods((store, authService = inject(AuthService), http = inject(HttpClient), toaster = inject(Toaster)) => {
@@ -41,7 +41,7 @@ export const CommentiStore = signalStore(
 
         return {
             // Il metodo SelezionaPost imposta lo state dello store
-            selezionaPost: signalMethod<string>((postId) => {
+            setIdPost: signalMethod<string>((postId) => {
                 patchState(store, {postIdSelezionato: postId})
             }),
 
