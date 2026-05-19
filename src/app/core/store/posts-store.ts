@@ -3,6 +3,7 @@ import { AggiungiPost, Post } from "../models/post"
 import { HttpClient, HttpHeaders, httpResource } from "@angular/common/http"
 import { computed, inject } from "@angular/core"
 import { AuthService } from "../services/auth-service/auth-service"
+import { Toaster } from "../services/toaster/toaster"
 
 export type PostState = {
     postSelezionato: Post | null;
@@ -27,7 +28,7 @@ export const PostsStore = signalStore(
         erroreAggiungiPost: '',
     } as PostState),
     
-    withMethods((store, authService = inject(AuthService), http = inject(HttpClient)) => {
+    withMethods((store, authService = inject(AuthService), http = inject(HttpClient), toaster = inject(Toaster)) => {
 
         // Istanziamo headersAutenticazione da riutilizzare
         const headersAutenticazione = new HttpHeaders({
@@ -98,10 +99,12 @@ export const PostsStore = signalStore(
                     headers: headersAutenticazione
                 }).subscribe({
                     next: () => {
-                        rispostaPost.reload()
+                        rispostaPost.reload();
+                        toaster.successo('Post aggiunto con successo!')
                     },
                     error: (err) => {
-                        patchState(store, {erroreAggiungiPost: `Errore nell'aggiunta del nuovo Post: ${{err}}`})
+                        patchState(store, { erroreAggiungiPost: `Errore nell'aggiunta del nuovo Post: ${err}` })
+                        toaster.errore(`Errore: ${err}`)
                     }
                 })
             }),
@@ -112,6 +115,7 @@ export const PostsStore = signalStore(
                 }).subscribe({
                     next: () => {
                         rispostaPost.reload()
+                        toaster.successo('Post cancellato con successo!')
                     }
                 })
             }),

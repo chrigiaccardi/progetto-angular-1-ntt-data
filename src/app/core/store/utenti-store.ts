@@ -4,6 +4,7 @@ import { computed, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, httpResource } from '@angular/common/http';
 import { AuthService } from '../services/auth-service/auth-service';
 import { catchError, Observable, of, tap, throwError } from 'rxjs';
+import { Toaster } from '../services/toaster/toaster';
 
 export type UtentiState = {
     utenteCorrente: Utente | null;
@@ -34,7 +35,7 @@ export const UtentiStore = signalStore(
     } as UtentiState),
 
 
-    withMethods((store, authService = inject(AuthService), http = inject(HttpClient)) => {
+    withMethods((store, authService = inject(AuthService), http = inject(HttpClient), toaster = inject(Toaster)) => {
         // Utilizziamo httpResource per semplificare l'aggiornamento signal
         // avere in automatico valore richiesta, boolean per il caricamento
         // e il codice errore nel caso di malfunzionamento
@@ -107,9 +108,12 @@ export const UtentiStore = signalStore(
                 }).subscribe({
                     next: (utenteCreato) => {
                         rispostaUtenti.reload();
+                        toaster.successo('Utente aggiunto con successo');
+                        
                     },
                     error: (err) => {
-                        patchState(store, { erroreAggiungiUtente: `Errore nell'aggiunta del nuovo utente: ${{ err }}` })
+                        patchState(store, { erroreAggiungiUtente: `Errore nell'aggiunta del nuovo utente: ${err}` })
+                        toaster.errore(`Errore, Utente non aggiunto: ${err}`)
                     }
                 })
             }),
@@ -127,9 +131,11 @@ export const UtentiStore = signalStore(
                 return creaAdmin().pipe(
                     tap(() => {
                         rispostaUtenti.reload();
+                        toaster.successo('Admin creato con successo')
                     }),
                     catchError(err => {
                         patchState(store, { erroreAggiungiUtente: 'Errore nella creazione Admin' });
+                        toaster.errore(`Errore nella creazione dell'Admin: ${err}`)
                         return throwError(() => err)
                     })
                 )
@@ -141,6 +147,7 @@ export const UtentiStore = signalStore(
                 }).subscribe({
                     next: () => {
                         rispostaUtenti.reload()
+                        toaster.successo('Utente cancellato con successo')
                     }
                 })
             }),
