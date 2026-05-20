@@ -2,7 +2,7 @@
 
     <!-- HEADER: Titolo + ID in alto a dx -->
     <div class="flex justify-between items-center px-5 pt-5 pb-3 border-b border-slate-100">
-        <h2 class="text-lg text-blue-900 font-semibold line-clamp-1">{{post().title}}</h2>
+        <h2 class="text-lg text-blue-900 font-semibold" [class.line-clamp-1]="!espansione()">{{post().title}}</h2>
     </div>
 
     <!-- BODY: Contenuto snippet -->

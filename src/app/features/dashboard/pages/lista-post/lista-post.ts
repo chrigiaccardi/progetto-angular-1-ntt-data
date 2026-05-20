@@ -11,6 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSuffix, MatPrefix } from '@angular/material/input';
 import { AggiungiPostDialog } from './components/aggiungi-post-dialog/aggiungi-post-dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 
 
@@ -43,24 +44,27 @@ export default class ListaPost {
     validators: [Validators.minLength(2)] // la ricerca è valida solamente dopo i primi 2 caratteri - gestione performance
   });
 
-  erroreRicerca = signal(false)
-
-    // Metodo ricerca per il bottone
-  onRicercaClick() {
-    // Controlla che il form sia valido
-    if (this.barraDiRicercaPost.invalid) {
-      this.erroreRicerca.set(true)
-      return
-    }
-    // Prendiamo il valore dal form
-    const testoRicerca = this.barraDiRicercaPost.value;
-    // Chiamiamo il metodo nello store
-    this.postsStore.setFiltroRicerca(testoRicerca);
-  };
-
+  // Metodo per aprire il dialog per creare un nuovo post
   apriDialogAggiungiPost() {
     this.matDialog.open(AggiungiPostDialog, {
       disableClose: false
     })
   };
+
+  // Nel costruttore il valueChanges ontrolla il cambio valore della barra di ricerca con un debounce di 500 ms
+  // dopo di chè manda la richiesta per il filtraggio dei post
+   erroreRicerca = signal(false)
+  constructor() {
+    this.barraDiRicercaPost.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(), // Non esegue di nuovo la stessa ricerca
+    ).subscribe(testo => {
+      if (this.barraDiRicercaPost.valid || testo === '') {
+        this.erroreRicerca.set(false);
+        this.postsStore.setFiltroRicerca(testo)
+      } else {
+        this.erroreRicerca.set(true)
+      }
+    })
+  }
 }

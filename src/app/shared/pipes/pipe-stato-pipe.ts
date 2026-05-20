@@ -5,14 +5,14 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true
 })
 export class PipeStatoPipe implements PipeTransform {
-  transform(value: string | undefined): string {
-    if (!value) {
+  transform(testo: string | undefined): string {
+    if (!testo) {
       return '';
     }
     const stato: Record<string, string> = {
       'active': 'Attivo',
       'inactive': 'Inattivo'
     }
-    return stato[value];
+    return stato[testo];
   }
 }

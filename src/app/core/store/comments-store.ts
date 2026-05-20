@@ -6,6 +6,7 @@ import { Commento } from "../models/commento"
 import { AggiungiPostDialog } from "../../features/dashboard/pages/lista-post/components/aggiungi-post-dialog/aggiungi-post-dialog"
 import { Toaster } from "../services/toaster/toaster"
 
+
 export type CommentoState = {
     postIdSelezionato: string | null;
     erroreAggiungiCommento: string;
@@ -40,19 +41,24 @@ export const CommentiStore = signalStore(
         })
 
         return {
-            // Il metodo SelezionaPost imposta lo state dello store
-            setIdPost: signalMethod<string>((postId) => {
-                patchState(store, {postIdSelezionato: postId})
-            }),
 
             commentiPost: rispostaCommenti.value,
             caricamentoCommenti: rispostaCommenti.isLoading,
             erroreCommenti: rispostaCommenti.error,
+            
+            // Il metodo setIDPost imposta lo state dello store
+            setIdPost: signalMethod<string>((postId) => {
+                patchState(store, {postIdSelezionato: postId})
+            }),
 
+            // caricare commenti fa il reload della risposta
             caricareCommenti: () => {
                 rispostaCommenti.reload()
             },
 
+            // Aggiungi commento dall'oggetto nuovo commento in entrata omette id perchè viene creato dal backend
+            // il metodo post inserisce nel server nel server un nuovo elemento
+            // il toaster manda un piccolo pop-up per la conferma
             aggiungiCommento: signalMethod<Omit<Commento, 'id'>>((nuovoCommento) => {
                 http.post<Commento>(`${authService.apiUrl}/posts/${nuovoCommento.post_id}/comments`, nuovoCommento, {
                     headers: headersAutenticazione

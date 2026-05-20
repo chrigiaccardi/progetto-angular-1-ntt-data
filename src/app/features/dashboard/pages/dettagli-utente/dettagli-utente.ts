@@ -15,12 +15,13 @@ import { Commento } from '../../../../core/models/commento';
 import { MatFormField, MatFormFieldModule } from "@angular/material/form-field";
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatInputModule } from '@angular/material/input';
+import { GenderPipe } from "../../../../shared/pipes/gender-pipe";
 
 @Component({
   selector: 'app-dettagli-utente',
   imports: [MatIconModule, MatProgressSpinnerModule, CardDashboard, BtnIndietro,
     PipeStatoPipe, MatButtonModule, MatExpansionModule, ListaCommentiPost, MatFormField,
-    MatFormFieldModule, ReactiveFormsModule, MatMiniFabButton, MatInputModule],
+    MatFormFieldModule, ReactiveFormsModule, MatMiniFabButton, MatInputModule, GenderPipe],
   templateUrl: './dettagli-utente.html',
   styleUrl: './dettagli-utente.css',
 })

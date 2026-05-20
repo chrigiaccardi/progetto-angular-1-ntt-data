@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { AggiungiUtenteDialog } from './components/aggiungi-utente-dialog/aggiungi-utente-dialog';
 import { MatSuffix, MatPrefix } from '@angular/material/input';
 import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-lista-utenti',
@@ -26,6 +27,8 @@ export default class ListaUtenti {
   // Importiamo dallo store i seguenti valori
   itemXPagina = this.utentiStore.itemXPagina
   opzioniItemPagina = this.utentiStore.opzioniItemPagina;
+  barraDiRicercaPost: any;
+  postsStore: any;
 
   // Metodo per poter cambiare Il Numero di utenti visualizzati in base a quelli presenti,
   // Quindi il valore specifico di quel evento
@@ -48,18 +51,22 @@ export default class ListaUtenti {
     validators: [Validators.minLength(2)] // la ricerca è valida solamente dopo i primi 2 caratteri - gestione performance
   });
 
+  // Nel costruttore il valueChanges ontrolla il cambio valore della barra di ricerca con un debounce di 500 ms
+  // dopo di chè manda la richiesta per il filtraggio degli utenti
   erroreRicerca = signal(false)
-
-  // Metodo ricerca per il bottone
-  onRicercaClick() {
-    // Controlla che il form sia valido
-    if (this.barraDiRicercaUtenti.invalid) {
-      this.erroreRicerca.set(true)
-      return
-    }
-    // Prendiamo il valore dal form
-    const testoRicerca = this.barraDiRicercaUtenti.value;
-    // Chiamiamo il metodo nello store
-    this.utentiStore.setFiltroRicerca(testoRicerca);
-  };
+  constructor() {
+    this.barraDiRicercaUtenti.valueChanges.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+    ).subscribe(testo => {
+      if (this.barraDiRicercaUtenti.valid || testo === '') {
+        this.erroreRicerca.set(false);
+        this.utentiStore.setFiltroRicerca(testo)
+      } else {
+        this.erroreRicerca.set(true)
+      }
+    })
+  }
 }
+
+
