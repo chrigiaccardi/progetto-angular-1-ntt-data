@@ -23,6 +23,7 @@ import { MatInputModule } from '@angular/material/input';
 export class CardPost {
   // Istanziamo l'input per il binding di informazioni
   post = input.required<Post>()
+  
   //Iniettiamo gli store per poterli utilizzare
   utentiStore = inject(UtentiStore)
   postsStore = inject(PostsStore)

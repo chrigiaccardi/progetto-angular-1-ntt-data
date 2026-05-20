@@ -45,7 +45,7 @@ export const PostsStore = signalStore(
             params: {
                 page: store.paginaCorrente(),
                 per_page: store.itemXPagina(),
-                name: store.filtroRicerca(),
+                title: store.filtroRicerca(),
             },
             headers: headersAutenticazione,
         }));
@@ -62,11 +62,17 @@ export const PostsStore = signalStore(
             headers: headersAutenticazione,
         }))
 
-        const rispostaPostDettagliUtente = httpResource<Post[]>(() => ({
-            url: `${authService.apiUrl}/users/${store.idUtenteSelezionato()}/posts`,
-            method: 'GET',
-            headers: headersAutenticazione,
-        }))
+        const rispostaPostDettagliUtente = httpResource<Post[]>(() => {
+            // istanziamo e controlliamo che idUtente sia presente, se no la chiamata non parte
+            const idUtente = store.idUtenteSelezionato()
+            if (!idUtente) return undefined;
+
+            return {
+                url: `${authService.apiUrl}/users/${idUtente}/posts`,
+                method: 'GET',
+                headers: headersAutenticazione,
+            }
+        })
 
         return {
             posts: rispostaPost.value,
@@ -98,7 +104,6 @@ export const PostsStore = signalStore(
             setFiltroRicerca: signalMethod<string>((testo: string) => {
                 patchState(store, {
                     filtroRicerca: testo,
-                    paginaCorrente: 1,
                 })
             }),
 
@@ -145,7 +150,6 @@ export const PostsStore = signalStore(
             
         // con Computed aggiorniamo il valore
         paginaPrecedente: computed(() => store.paginaCorrente() - 1),
-        
         paginaSuccessiva: computed(() => store.paginaCorrente() + 1),
         
     }),

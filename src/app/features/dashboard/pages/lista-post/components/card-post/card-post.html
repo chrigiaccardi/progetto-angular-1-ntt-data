@@ -11,7 +11,7 @@
     </div>
     <div class="flex justify-around mb-1">
         <button matButton class="!bg-blue-100" (click)="leggiTutto()">{{espansione() ? 'Mostra Meno' : 'Leggi Tutto'}}</button>
-        <button matButton class="!bg-blue-100" (click)="commentiStore.selezionaPost(post().id)">
+        <button matButton class="!bg-blue-100" (click)="commentiStore.setIdPost(post().id)">
             <mat-icon>chat_bubble_outline</mat-icon> Commenti {{commentiStore.postIdSelezionato() === post().id ? `(${commentiStore.numeroCommenti()})`: ``}}
         </button>
     </div>
