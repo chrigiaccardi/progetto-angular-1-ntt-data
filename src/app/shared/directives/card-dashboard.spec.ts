@@ -1,4 +1,4 @@
-import { PannelloDashboard } from './pannello-dashboard';
+import { PannelloDashboard } from "../../features/dashboard/components/pannello-dashboard/pannello-dashboard";
 
 describe('PannelloDashboard', () => {
   it('should create an instance', () => {
