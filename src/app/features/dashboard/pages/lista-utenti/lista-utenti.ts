@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { UtentiStore } from '../../../../core/store/utenti-store';
+import { UtentiStore } from '../../../../core/store/utentiStore/utenti-store';
 import { CardDashboard } from '../../../../shared/directives/card-dashboard';
 import { BtnIndietro } from '../../../../shared/components/btn-indietro/btn-indietro';
 import { MatInputModule } from "@angular/material/input";

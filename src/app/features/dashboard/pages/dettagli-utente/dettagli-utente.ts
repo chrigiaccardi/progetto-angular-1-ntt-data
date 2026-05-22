@@ -1,14 +1,14 @@
 import { Component, inject, input } from '@angular/core';
-import { UtentiStore } from '../../../../core/store/utenti-store';
+import { UtentiStore } from '../../../../core/store/utentiStore/utenti-store';
 import { MatIconModule } from "@angular/material/icon";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CardDashboard } from "../../../../shared/directives/card-dashboard";
 import { BtnIndietro } from "../../../../shared/components/btn-indietro/btn-indietro";
 import { PipeStatoPipe } from "../../../../shared/pipes/pipe-stato-pipe";
 import { MatButtonModule } from "@angular/material/button";
-import { PostsStore } from '../../../../core/store/posts-store';
+import { PostsStore } from '../../../../core/store/postsStore/posts-store';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { CommentiStore } from '../../../../core/store/comments-store';
+import { CommentiStore } from '../../../../core/store/commentiStore/commenti-store';
 import { ListaCommentiPost } from "../lista-post/components/card-post/lista-commenti-post/lista-commenti-post";
 import { NonNullableFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Commento } from '../../../../core/models/commento';

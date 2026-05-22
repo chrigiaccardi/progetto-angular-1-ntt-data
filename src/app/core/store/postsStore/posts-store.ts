@@ -1,9 +1,9 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals"
-import { AggiungiPost, Post } from "../models/post"
+import { Post } from "../../models/post"
 import { HttpClient, HttpHeaders, httpResource } from "@angular/common/http"
 import { computed, inject } from "@angular/core"
-import { AuthService } from "../services/auth-service/auth-service"
-import { Toaster } from "../services/toaster/toaster"
+import { AuthService } from "../../services/auth-service/auth-service"
+import { Toaster } from "../../services/toaster/toaster"
 
 export type PostState = {
     postSelezionato: Post | null;

@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PostsStore } from '../../../../../../core/store/posts-store';
+import { PostsStore } from '../../../../../../core/store/postsStore/posts-store';
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from '@angular/material/input';
-import { UtentiStore } from '../../../../../../core/store/utenti-store';
+import { UtentiStore } from '../../../../../../core/store/utentiStore/utenti-store';
 import { Post } from '../../../../../../core/models/post';
 
 

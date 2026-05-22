@@ -1,6 +1,6 @@
 import { Component, effect, inject, input } from '@angular/core';
 import { Commento } from '../../../../../../../core/models/commento';
-import { CommentiStore } from '../../../../../../../core/store/comments-store';
+import { CommentiStore } from '../../../../../../../core/store/commentiStore/commenti-store';
 
 @Component({
   selector: 'app-lista-commenti-post',

@@ -1,11 +1,11 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { Post } from '../../../../../../core/models/post';
-import { UtentiStore } from '../../../../../../core/store/utenti-store';
-import { PostsStore } from '../../../../../../core/store/posts-store';
+import { UtentiStore } from '../../../../../../core/store/utentiStore/utenti-store';
+import { PostsStore } from '../../../../../../core/store/postsStore/posts-store';
 import { RouterLink } from "@angular/router";
 import { MatMiniFabButton } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
-import { CommentiStore } from '../../../../../../core/store/comments-store';
+import { CommentiStore } from '../../../../../../core/store/commentiStore/commenti-store';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { ListaCommentiPost } from "./lista-commenti-post/lista-commenti-post";
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";

@@ -3,8 +3,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { Utente } from '../../../../../../core/models/utente';
 import { RouterLink } from '@angular/router';
 import { PipeStatoPipe } from "../../../../../../shared/pipes/pipe-stato-pipe";
-import { UtentiStore } from '../../../../../../core/store/utenti-store';
-import { PostsStore } from '../../../../../../core/store/posts-store';
+import { UtentiStore } from '../../../../../../core/store/utentiStore/utenti-store';
+import { PostsStore } from '../../../../../../core/store/postsStore/posts-store';
 
 @Component({
   selector: 'app-item-lista-utenti',

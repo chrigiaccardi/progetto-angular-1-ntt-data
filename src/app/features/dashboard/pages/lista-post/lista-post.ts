@@ -1,7 +1,7 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { BtnIndietro } from "../../../../shared/components/btn-indietro/btn-indietro";
 import { CardDashboard } from "../../../../shared/directives/card-dashboard";
-import { PostsStore } from '../../../../core/store/posts-store';
+import { PostsStore } from '../../../../core/store/postsStore/posts-store';
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { CardPost } from "./components/card-post/card-post";
 import { MatIconModule } from "@angular/material/icon";

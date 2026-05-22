@@ -1,10 +1,10 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals"
-import { AuthService } from "../services/auth-service/auth-service"
+import { AuthService } from "../../services/auth-service/auth-service"
 import { computed, inject, Signal } from "@angular/core"
 import { HttpClient, HttpHeaders, httpResource } from "@angular/common/http"
-import { Commento } from "../models/commento"
-import { AggiungiPostDialog } from "../../features/dashboard/pages/lista-post/components/aggiungi-post-dialog/aggiungi-post-dialog"
-import { Toaster } from "../services/toaster/toaster"
+import { Commento } from "../../models/commento"
+import { AggiungiPostDialog } from "../../../features/dashboard/pages/lista-post/components/aggiungi-post-dialog/aggiungi-post-dialog"
+import { Toaster } from "../../services/toaster/toaster"
 
 
 export type CommentoState = {
