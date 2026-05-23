@@ -120,8 +120,8 @@ export const UtentiStore = signalStore(
                         
                     },
                     error: (err) => {
-                        patchState(store, { erroreAggiungiUtente: `Errore nell'aggiunta del nuovo utente: ${err}` })
-                        toaster.errore(`Errore, Utente non aggiunto: ${err}`)
+                        patchState(store, { erroreAggiungiUtente: `Errore nell'aggiunta del nuovo utente: ${err.statusText}` })
+                        toaster.errore(`Errore, Utente non aggiunto: ${err.statusText}`)
                     }
                 })
             }),
