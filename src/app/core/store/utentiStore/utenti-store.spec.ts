@@ -2,9 +2,10 @@
 import { TestBed } from "@angular/core/testing";
 import { UtentiStore } from "./utenti-store";
 import { Utente } from "../../models/utente";
-import { provideHttpClient } from "@angular/common/http";
+import { HttpErrorResponse, provideHttpClient } from "@angular/common/http";
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing'
 import { firstValueFrom } from "rxjs";
+import { AuthService } from "../../services/auth-service/auth-service";
 
 // describe raggruppa i test che appartengono allo stesso argomento
 // Test che riguardano utentiStore
@@ -15,7 +16,24 @@ describe('UtentiStore', () => {
     // Typeof la tipologia
     // InstanceType tipo di oggetto che ricevo quando angular lo inietta
     let store: InstanceType<typeof UtentiStore>;
-    let httpTesting: HttpTestingController
+    let httpTesting: HttpTestingController;
+    let authService: AuthService
+
+    // Creiamo un adminFinto da poter utilizzare
+    const adminFinto: Utente = {
+        id: '1',
+        name: 'Admin',
+        email: 'admincitysharehub@admin.it',
+        gender: 'male',
+        status: 'active',
+    }
+    // Creiamo utenteFinto da poter utilizzare
+    const utenteFake: Omit<Utente, 'id'> = {
+        name: 'Mario',
+        email: 'mr@mr.com',
+        gender: 'male',
+        status: 'inactive'
+    }
 
     // Blocco eseguito prima di ogni Test it, non lo ripetiamo sempre,
     // ed a ogni test abbiamo l'ambiente pulito
@@ -31,6 +49,7 @@ describe('UtentiStore', () => {
         // Recuperiamo UtentiStore e lo assegnamo a store
         store = TestBed.inject(UtentiStore);
         httpTesting = TestBed.inject(HttpTestingController)
+        authService = TestBed.inject(AuthService)
     });
 
     // Controlliamo che alla fine non rimangono richieste gttp pendenti
@@ -61,42 +80,74 @@ describe('UtentiStore', () => {
         expect(store.selezioneIdUtente()).toBe('842545')
     });
 
-    it('paginaPrecedente / paginaSuccessiva aggiornano paginaCorrente', () => {
+    it('paginaPrecedente / paginaSuccessiva calcolano paginaCorrente', () => {
         store.andareAPagina(3)
         expect(store.paginaPrecedente()).toBe(2)
         expect(store.paginaSuccessiva()).toBe(4)
     });
 
-    it('controlloAdmin se esiste return, se non esiste crea',
+    it('controlloAdmin se esiste return admin',
         async () => {
-        // Creiamo un adminFinto da poter utilizzare
-        const adminFinto: Utente = {
-            id: '1',
-            name: 'Admin',
-            email: 'admincitysharehub@admin.it',
-            gender: 'male',
-            status: 'active',
-        }
-         
-        // Istanziamo il primo risultato che arriva dal metodo
-        const risultatoPromise = firstValueFrom(store.controlloAdmin());
+            
+            // Istanziamo il primo risultato che arriva dal metodo
+            const risultatoPromise = firstValueFrom(store.controlloAdmin());
 
-        // Intercettiamo la richiesta e mi aspetto che sia fatta con il metodo GET
-        const richiesta = httpTesting.expectOne((richiesta) => richiesta.method === 'GET')
+            // Intercettiamo la richiesta e mi aspetto che sia fatta con il metodo GET
+            const richiestaGET = httpTesting.expectOne({ method: 'GET', url: authService.urlUtenti })
       
-        // Intercettata la richiesta mettiamo come risultato con .flush un array con admin finto dentro.
-        // In questo modo cerca admin restituisce questo visto che deve restituire un Observable <Utente[]>
-        richiesta.flush([adminFinto])
+            // Intercettata la richiesta mettiamo come risultato con .flush un array con admin finto dentro.
+            // In questo modo cerca admin restituisce questo visto che deve restituire un Observable <Utente[]>
+            richiestaGET.flush([adminFinto])
             
-        // A sto punto il risultato è l'await di risultatoPromise
-        const risultatoFinale = await risultatoPromise
+            // A sto punto il risultato è l'await di risultatoPromise
+            const risultatoFinale = await risultatoPromise
         
-        // In conclusione ci aspettiamo che il risultato finale sia uguale ad adminFinto
-        expect(risultatoFinale).toEqual(adminFinto)
-            
-
-
-    })
-
+            // In conclusione ci aspettiamo che il risultato finale sia uguale ad adminFinto
+            expect(risultatoFinale).toEqual(adminFinto)
+        }
+    );
     
+    it('controlloAdmin, se non esiste lo crea',
+        async () => {
+            const risultatoPromise = firstValueFrom(store.controlloAdmin());
+            // Test GET
+            const richiestaGET = httpTesting.expectOne({ method: 'GET', url: authService.urlUtenti })
+            richiestaGET.flush([])
+            // Test Post
+            const richiestaPOST = httpTesting.expectOne({ method: 'POST', url: authService.urlUtenti })
+            richiestaPOST.flush(adminFinto)
+            
+            const risultatoFinale = await risultatoPromise
+            expect(risultatoFinale).toEqual(adminFinto)
+        }
+    );
+
+    it('controlloAdmin catchErrore',
+        async () => {
+            const risultatoPromise = firstValueFrom(store.controlloAdmin());
+            // Impostiamo l'array vuoto per entrare nel post
+            const richiestaGET = httpTesting.expectOne({ method: 'GET', url: authService.urlUtenti })
+            richiestaGET.flush([])
+
+            // Impostiamo l'errore nella richiesta
+            const richiestaPOST = httpTesting.expectOne({ method: 'POST', url: authService.urlUtenti })
+            richiestaPOST.flush('Errore server', {
+                status: 500,
+                statusText: 'Internal Server Error'
+            })
+
+            // Verifichiamo che la promis fallisca
+            await expect(risultatoPromise).rejects.toThrow()
+
+            expect(store.erroreAggiungiUtente()).toContain('Errore nella creazione Admin')
+        }
+    );
+
+    it('Dovrebbe creare un nuovo utente', () => {
+        store.aggiungiUtente(utenteFake)
+        const richiestaPOST = httpTesting.expectOne({url: authService.urlUtenti })
+
+        expect(richiestaPOST.request.method).toBe('POST');
+        expect(richiestaPOST.request.body).toEqual(utenteFake);
+    });
 })
