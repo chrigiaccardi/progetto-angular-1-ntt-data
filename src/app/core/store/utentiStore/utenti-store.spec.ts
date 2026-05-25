@@ -39,7 +39,6 @@ describe('UtentiStore', () => {
         ...utenteFake
     }
     let idUtente: string = '123';
-    let err : string = 'Authorization header is missing or the token is invalid'
 
     // Blocco eseguito prima di ogni Test it, non lo ripetiamo sempre,
     // ed a ogni test abbiamo l'ambiente pulito
