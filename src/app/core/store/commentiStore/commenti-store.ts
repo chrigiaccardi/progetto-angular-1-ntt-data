@@ -1,9 +1,8 @@
 import { patchState, signalMethod, signalStore, withComputed, withMethods, withState } from "@ngrx/signals"
 import { AuthService } from "../../services/auth-service/auth-service"
-import { computed, inject, Signal } from "@angular/core"
+import { computed, inject} from "@angular/core"
 import { HttpClient, HttpHeaders, httpResource } from "@angular/common/http"
 import { Commento } from "../../models/commento"
-import { AggiungiPostDialog } from "../../../features/dashboard/pages/lista-post/components/aggiungi-post-dialog/aggiungi-post-dialog"
 import { Toaster } from "../../services/toaster/toaster"
 
 
@@ -57,13 +56,14 @@ export const CommentiStore = signalStore(
             },
 
             // Aggiungi commento dall'oggetto nuovo commento in entrata omette id perchè viene creato dal backend
-            // il metodo post inserisce nel server nel server un nuovo elemento
+            // il metodo post inserisce nel server un nuovo elemento
             // il toaster manda un piccolo pop-up per la conferma
             aggiungiCommento: signalMethod<Omit<Commento, 'id'>>((nuovoCommento) => {
                 http.post<Commento>(`${authService.apiUrl}/posts/${nuovoCommento.post_id}/comments`, nuovoCommento, {
                     headers: headersAutenticazione
                 }).subscribe({
                     next: () => {
+                        patchState(store, {erroreAggiungiCommento: ''})
                         rispostaCommenti.reload()
                         toaster.successo('Commento aggiunto con successo!')
                     },
