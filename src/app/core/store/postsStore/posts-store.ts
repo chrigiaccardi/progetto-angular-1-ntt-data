@@ -15,8 +15,6 @@ export type PostState = {
     idUtenteSelezionato: string;
 }
 
-
-
 export const PostsStore = signalStore(
     { providedIn: 'root' },
 

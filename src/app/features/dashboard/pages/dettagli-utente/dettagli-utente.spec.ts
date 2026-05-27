@@ -92,13 +92,13 @@ describe('DettagliUtente', () => {
 
     // Essendo un input required Signal, Angular richiede che il valore venga
     // Impostato prima della change detenction, essendo che è impostato nel costruttore
-    // Praticamente simuliamo un input-genitore-child
+    // Praticamente simuliamo un input-parent-child
     fixture.componentRef.setInput('idUtente', '1')
 
-    // detectChanges avvia il ciclo di change detection.
-    // Nell'app Angular viene eseguita automaticamente ogni volta che succede qualcosa
-    // Nei test bisogna chiamarlo manualmente
-    fixture.detectChanges()
+    // Prima avevo impostato il fixture.detectChanges anche qua per renderizzare il DOM.
+    // Meglio di no se no da errore perchè dopo il primo render del DOM nei test poi cambiano i valori
+    // e angular trova discordanza e fragilità nel DOM.
+    // Quindi non lo renderizziamo ma lo renderizziamo dopo nei test dopo le apportate modifiche dei valori
 
     utentiStore = TestBed.inject(UtentiStore)
     postsStore = TestBed.inject(PostsStore)
@@ -124,7 +124,11 @@ describe('DettagliUtente', () => {
   });
 
   it('Dovrebbe comparire nome utente quando il caricamento è false', () => {
-    // Essendo che nel beforeEach caricamento è già impostato sul false non dobbiamo renderizzare il DOM
+    // Nel beforeEach caricamento è già false ma visto che la dentro non abbiamo il detectChanges
+    // dobbiamo renderizzarlo qua senza fare modifiche
+    fixture.detectChanges();
+
+
     const elementoNativo = fixture.nativeElement
     expect(elementoNativo.textContent).toContain('Giuseppe Mazzini')
     expect(elementoNativo.textContent).toContain('gm@example.com')
@@ -152,7 +156,7 @@ describe('DettagliUtente', () => {
     expect(commentiStoreMock.setIdPost).toHaveBeenCalledWith('547')
   })
 
-  it('Dovrebbee apparire la scritta che non ci sono commenti se la lista è vuota', () => {
+  it('Dovrebbe apparire la scritta che non ci sono commenti se la lista è vuota', () => {
     // Impostiamo che è presente un post fittizio nella lista
     postsStoreMock.postsDettagliUtente.mockReturnValue([
       { id: '547', title: 'Titolo Test', body: 'Body Test' }
@@ -173,13 +177,25 @@ describe('DettagliUtente', () => {
     expect(elementoNativo.textContent).toContain('Non ci sono commenti. Inserisci tu il primo!!')
   })
 
+  it('Il bottone submit dovrebbe essere disabilitato', () => {
+    // Impostiamo un post fittizio e renderizziamo il DOM
+    postsStoreMock.postsDettagliUtente.mockReturnValue([
+      { id: '547', title: 'Titolo Test', body: 'Body Test' }
+    ])
+    fixture.detectChanges();
+    // Cerchiamo il mat-panel e triggeriamo l'evento per aprirlo
+    const matPanel = fixture.debugElement.query(
+      By.css('mat-expansion-panel')
+    )
+    matPanel.triggerEventHandler('opened', null)
+    // A sto punto cerchiamo il bottone submit
+    const btnSubmit = fixture.debugElement.query(
+      By.css('button[type="submit"]')
+    )
+    // Ci aspettiamo che la proprietà disabled sia true
+    expect(btnSubmit.nativeElement.disabled).toBe(true)
+  })
+
 });
 
-
-
-
-// 4. Se la lista commenti è vuota deve apparire la scritta non ci sono commenti
-// 5. se il form commenti è invalido il bottone deve essere disabilitato
-// 6. Mostra conteggio quando viene ritornata la lista di posts
-// 7. 
 
