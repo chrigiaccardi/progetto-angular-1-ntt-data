@@ -14,7 +14,10 @@ describe('ListaPost', () => {
     caricamento: ReturnType<typeof vi.fn>
     posts: ReturnType<typeof vi.fn>
     errore: ReturnType<typeof vi.fn>
-  
+    paginaSuccessiva: ReturnType<typeof vi.fn>
+    paginaCorrente: ReturnType<typeof vi.fn>
+    andareAPagina: ReturnType<typeof vi.fn>
+    
   }
 
   beforeEach(async () => {
@@ -23,13 +26,15 @@ describe('ListaPost', () => {
       caricamento: vi.fn(),
       posts: vi.fn(),
       errore: vi.fn(),
+      paginaSuccessiva: vi.fn(),
+      paginaCorrente: vi.fn(),
+      andareAPagina: vi.fn(),
     }
 
     // Impostiamo i valori di default per il template
     postsStoreMock.caricamento.mockReturnValue(false)
     postsStoreMock.posts.mockReturnValue([])
     postsStoreMock.errore.mockReturnValue(null)
-
 
     await TestBed.configureTestingModule({
       imports: [ListaPost],
@@ -101,7 +106,7 @@ describe('ListaPost', () => {
     const btnApriDialog = bottoni.find(btn => 
       btn.nativeElement.textContent.trim().includes('Aggiungi Nuovo Post')
     )
-    // Ci assicuriamo che il btn esiste
+    // Ci assicuriamo che il btn esista
     expect(btnApriDialog).toBeDefined()
     // SpyOn intercetta il metodo e lo registra (Va messo prima del trigger che lo scatena)
     const aperturaDialog = vi.spyOn(component, 'apriDialogAggiungiPost')
@@ -112,12 +117,27 @@ describe('ListaPost', () => {
     expect(aperturaDialog).toHaveBeenCalled()
   })
 
-  // it('', () => {
+  it('Dovrebbe cambiare pagina(numero) al click Avanti', () => {
+    // Impostiamo pagina corrente a 3 e successiva a 4
+    postsStoreMock.paginaCorrente.mockReturnValue(3)
+    postsStoreMock.paginaSuccessiva.mockReturnValue(4)
+    // Renderizziamo il DOM
+    fixture.detectChanges()
+    // Troviamo il bottone Avanti
+    const bottoni = fixture.debugElement.queryAll(By.css('button'))
+    const btnAvanti = bottoni.find(btn => 
+      btn.nativeElement.textContent.trim().includes('Avanti') 
+    )
+    // Controlliamo se btnAvanti esiste
+    expect(btnAvanti).toBeDefined()
+    // Avviamo il click
+    btnAvanti?.nativeElement.click()
+    // Ci aspettiamo che la chiamata restituisca 4 - Utilizziamo toHaveBeenCalledWith
+    // perchè ha argomento in ingresso, senza with non ha argomenti
+    expect(postsStoreMock.andareAPagina).toHaveBeenCalledWith(4)
 
-  // })
+    // NB - In questo caso non facciamo SpyON perchè il metodo è già vi.fn() nel mock
+  })
 
 });
 
-
-
-// 4. Tasto avanti per la paginazione collegata correttamente
