@@ -28,9 +28,7 @@
             } @else if (postsStore.errore()) {
             <p class="text-xl text-bold text-blue-900 m-5">Ops! {{postsStore.errore()}}</p>
             } @else if(postsStore.posts() && postsStore.posts()?.length === 0) {
-            <p class="text-xl text-bold text-blue-900 m-5">Mi dispiace! La ricerca non ha dato nessun riscontro, 0
-                Utenti
-                trovati.</p>
+            <p class="text-xl text-bold text-blue-900 m-5">Mi dispiace! La ricerca ha dato nessun riscontro, 0 Utenti trovati.</p>
             }
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-5">

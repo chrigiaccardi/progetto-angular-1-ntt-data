@@ -13,6 +13,7 @@ describe('ListaPost', () => {
   let postsStoreMock: {
     caricamento: ReturnType<typeof vi.fn>
     posts: ReturnType<typeof vi.fn>
+    errore: ReturnType<typeof vi.fn>
   
   }
 
@@ -21,11 +22,13 @@ describe('ListaPost', () => {
     postsStoreMock = {
       caricamento: vi.fn(),
       posts: vi.fn(),
+      errore: vi.fn(),
     }
 
     // Impostiamo i valori di default per il template
     postsStoreMock.caricamento.mockReturnValue(false)
     postsStoreMock.posts.mockReturnValue([])
+    postsStoreMock.errore.mockReturnValue(null)
 
 
     await TestBed.configureTestingModule({
@@ -74,22 +77,47 @@ describe('ListaPost', () => {
     expect(cardsPost.length).toBe(3)
   })
 
-  it('', () => {
+  it('Dovrebbe vedersi il messaggio di empty state in array posts', () => {
+    // Essendo che posts, nel file HTML, nell'if - else if, è al terzo posto dobbiamo impostare anche gli altri
+    // Affinchè si arrivi a quello stato
+    postsStoreMock.caricamento.mockReturnValue(false)
+    postsStoreMock.errore.mockReturnValue(null)
+    postsStoreMock.posts.mockReturnValue([])
 
+    fixture.detectChanges();
+
+    const elementoNativo = fixture.nativeElement
+    expect(elementoNativo.textContent).toContain('0 Utenti trovati.')
   })
 
-  it('', () => {
-
+  it('Dovrebbe aprire il dialog quando clicco il bottone indicato', () => {
+    // Renderizziamo il DOM subito visto che non abbiamo variazioni
+    fixture.detectChanges()
+    // Troviamo tutti i bottoni
+    const bottoni = fixture.debugElement.queryAll(By.css('button'))
+    // Cerchiamo tra i botoni quello con il textContent giusto.
+    // Se find non trova nulla restituisce undefined quindi dopo ci assicuriamo che esista
+    // trim() toglie gli spazi all'inizio e alla fine
+    const btnApriDialog = bottoni.find(btn => 
+      btn.nativeElement.textContent.trim().includes('Aggiungi Nuovo Post')
+    )
+    // Ci assicuriamo che il btn esiste
+    expect(btnApriDialog).toBeDefined()
+    // SpyOn intercetta il metodo e lo registra (Va messo prima del trigger che lo scatena)
+    const aperturaDialog = vi.spyOn(component, 'apriDialogAggiungiPost')
+    // Essendo un bottone con una azione normale con il click usiamo questa sintassi
+    // al posto di triggerEventHandler (! per confermare che il btn esiste per forza)
+    btnApriDialog!.nativeElement.click()
+    // Ci aspettiamo che la chiamata sia effettuata
+    expect(aperturaDialog).toHaveBeenCalled()
   })
 
-  it('', () => {
+  // it('', () => {
 
-  })
+  // })
 
 });
 
-// 1. loading state - caricamento dati e spinner
-// 2. card compaiono nel DOM - è il cuore quindi va coperto
-// 3. messaggio di empty state quando l'array dei post è vuoto
+
+
 // 4. Tasto avanti per la paginazione collegata correttamente
-// 5. apri dialog al click
