@@ -16,25 +16,29 @@ describe('ListaPost', () => {
     errore: ReturnType<typeof vi.fn>
     paginaSuccessiva: ReturnType<typeof vi.fn>
     paginaCorrente: ReturnType<typeof vi.fn>
+    paginaPrecedente: ReturnType<typeof vi.fn>
     andareAPagina: ReturnType<typeof vi.fn>
-    
+    itemXPagina: ReturnType<typeof vi.fn>
+    itemPerPagina: ReturnType<typeof vi.fn>
+    opzioniItemPagina: ReturnType<typeof vi.fn>
   }
 
   beforeEach(async () => {
-    // Creiamo i mock dei store e i metodi che utilizziamo
+    // Creiamo i mock dei store e i metodi che utilizziamo e gli diamo i valori di partenza
     postsStoreMock = {
-      caricamento: vi.fn(),
-      posts: vi.fn(),
-      errore: vi.fn(),
-      paginaSuccessiva: vi.fn(),
-      paginaCorrente: vi.fn(),
+      caricamento: vi.fn().mockReturnValue(false),
+      posts: vi.fn().mockReturnValue([]),
+      errore: vi.fn().mockReturnValue(null),
+      paginaSuccessiva: vi.fn().mockReturnValue(3),
+      paginaCorrente: vi.fn().mockReturnValue(2),
+      paginaPrecedente: vi.fn().mockReturnValue(1),
       andareAPagina: vi.fn(),
+      itemXPagina: vi.fn().mockReturnValue(5),
+      itemPerPagina: vi.fn(),
+      opzioniItemPagina: vi.fn(),
     }
 
-    // Impostiamo i valori di default per il template
-    postsStoreMock.caricamento.mockReturnValue(false)
-    postsStoreMock.posts.mockReturnValue([])
-    postsStoreMock.errore.mockReturnValue(null)
+  
 
     await TestBed.configureTestingModule({
       imports: [ListaPost],
@@ -48,6 +52,8 @@ describe('ListaPost', () => {
     await fixture.whenStable();
   });
 
+  // Inizio test
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });
@@ -55,6 +61,8 @@ describe('ListaPost', () => {
   it('Dovrebbe comparire la scritta caricamento quando caricamento è true', () => {
     // Impostiamo il valore di caricamento in true e renderizziamo il DOM
     postsStoreMock.caricamento.mockReturnValue(true)
+    postsStoreMock.errore.mockReturnValue(null)
+    postsStoreMock.posts.mockReturnValue([])
     fixture.detectChanges()
 
     // Cerchiamo nel DOM l'elemento nativo (p) che contiene la Caricamento...

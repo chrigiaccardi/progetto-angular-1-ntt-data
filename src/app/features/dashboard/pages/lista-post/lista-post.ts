@@ -29,6 +29,12 @@ export default class ListaPost {
   // Importiamo dallo store i seguenti valori
   itemXpagina = this.postsStore.itemXPagina;
   opzioniItemPagina = this.postsStore.opzioniItemPagina;
+  posts = this.postsStore.posts;
+  errore = this.postsStore.errore;
+  paginaCorrente = this.postsStore.paginaCorrente;
+  paginaPrecedente = this.postsStore.paginaPrecedente;
+  paginaSuccessiva = this.postsStore.paginaSuccessiva;
+  caricamento = this.postsStore.caricamento;
 
   // Metodo per poter cambiare Il Numero di post visualizzati in base a quelli presenti,
   // Quindi il valore specifico di quel evento
