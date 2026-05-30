@@ -1,41 +1,49 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import  ListaPost  from './lista-post';
 import { PostsStore } from '../../../../core/store/postsStore/posts-store';
 import { By } from '@angular/platform-browser';
+import { computed, Signal, signal, WritableSignal } from '@angular/core';
+import { Post } from '../../../../core/models/post';
+import { provideRouter } from '@angular/router';
+
 
 describe('ListaPost', () => {
   let component: ListaPost;
   let fixture: ComponentFixture<ListaPost>;
-  let postsStore: InstanceType<typeof PostsStore>
 
   // Dichiariamo i mock degli store e i metodi che utilizziamo
   let postsStoreMock: {
-    caricamento: ReturnType<typeof vi.fn>
-    posts: ReturnType<typeof vi.fn>
-    errore: ReturnType<typeof vi.fn>
-    paginaSuccessiva: ReturnType<typeof vi.fn>
-    paginaCorrente: ReturnType<typeof vi.fn>
-    paginaPrecedente: ReturnType<typeof vi.fn>
+    caricamento: WritableSignal<boolean>
+    posts: WritableSignal<Post[]>
+    errore: WritableSignal<Error | undefined>
+    paginaCorrente: WritableSignal<number>
+    itemXPagina: WritableSignal<number>
+    paginaSuccessiva: Signal<number>
+    paginaPrecedente: Signal<number>
+    opzioniItemPagina: Signal<number[]>
+
     andareAPagina: ReturnType<typeof vi.fn>
-    itemXPagina: ReturnType<typeof vi.fn>
     itemPerPagina: ReturnType<typeof vi.fn>
-    opzioniItemPagina: ReturnType<typeof vi.fn>
+    getNomeUtente: ReturnType<typeof vi.fn>
+
+
   }
 
   beforeEach(async () => {
     // Creiamo i mock dei store e i metodi che utilizziamo e gli diamo i valori di partenza
     postsStoreMock = {
-      caricamento: vi.fn().mockReturnValue(false),
-      posts: vi.fn().mockReturnValue([]),
-      errore: vi.fn().mockReturnValue(null),
-      paginaSuccessiva: vi.fn().mockReturnValue(3),
-      paginaCorrente: vi.fn().mockReturnValue(2),
-      paginaPrecedente: vi.fn().mockReturnValue(1),
+      caricamento: signal(false),
+      posts: signal([]),
+      errore: signal(undefined),
+      paginaCorrente: signal(2),
+      itemXPagina: signal(5),
+      paginaSuccessiva: computed(() => postsStoreMock.paginaCorrente() + 1),
+      paginaPrecedente: computed(() => postsStoreMock.paginaCorrente() - 1),
+      opzioniItemPagina: signal([]),
+      
       andareAPagina: vi.fn(),
-      itemXPagina: vi.fn().mockReturnValue(5),
       itemPerPagina: vi.fn(),
-      opzioniItemPagina: vi.fn(),
+      getNomeUtente: vi.fn(),
     }
 
   
@@ -43,7 +51,9 @@ describe('ListaPost', () => {
     await TestBed.configureTestingModule({
       imports: [ListaPost],
       providers: [
-        {provide: PostsStore, useValue: postsStoreMock}
+        { provide: PostsStore, useValue: postsStoreMock },
+        // Quando nel HTML abbiamo un routerLink, Router Outlet ActivatedRoute ecc. utilizziamo provideRouter
+        provideRouter([]),
       ]
     }).compileComponents();
 
@@ -60,9 +70,7 @@ describe('ListaPost', () => {
 
   it('Dovrebbe comparire la scritta caricamento quando caricamento è true', () => {
     // Impostiamo il valore di caricamento in true e renderizziamo il DOM
-    postsStoreMock.caricamento.mockReturnValue(true)
-    postsStoreMock.errore.mockReturnValue(null)
-    postsStoreMock.posts.mockReturnValue([])
+    postsStoreMock.caricamento.set(true)
     fixture.detectChanges()
 
     // Cerchiamo nel DOM l'elemento nativo (p) che contiene la Caricamento...
@@ -74,7 +82,7 @@ describe('ListaPost', () => {
 
   it('Dovrebbero comparire le card posts quando restituisce la lista posts', () => {
     // Impostiamo tre post differenti dentro il ritorno della lista e renderizziamo il DOM
-    postsStoreMock.posts.mockReturnValue([
+    postsStoreMock.posts.set([
       {id: '10', user_id: '23', title: 'Titolo 1', body: 'Body 1'},
       {id: '11', user_id: '24', title: 'Titolo 2', body: 'Body 2'},
       {id: '12', user_id: '25', title: 'Titolo 3', body: 'Body 3'}
@@ -93,9 +101,9 @@ describe('ListaPost', () => {
   it('Dovrebbe vedersi il messaggio di empty state in array posts', () => {
     // Essendo che posts, nel file HTML, nell'if - else if, è al terzo posto dobbiamo impostare anche gli altri
     // Affinchè si arrivi a quello stato
-    postsStoreMock.caricamento.mockReturnValue(false)
-    postsStoreMock.errore.mockReturnValue(null)
-    postsStoreMock.posts.mockReturnValue([])
+    postsStoreMock.caricamento.set(false)
+    postsStoreMock.errore.set(undefined)
+    postsStoreMock.posts.set([])
 
     fixture.detectChanges();
 
@@ -125,10 +133,7 @@ describe('ListaPost', () => {
     expect(aperturaDialog).toHaveBeenCalled()
   })
 
-  it('Dovrebbe cambiare pagina(numero) al click Avanti', () => {
-    // Impostiamo pagina corrente a 3 e successiva a 4
-    postsStoreMock.paginaCorrente.mockReturnValue(3)
-    postsStoreMock.paginaSuccessiva.mockReturnValue(4)
+  it('Dovrebbe cambiare pagina(numero) al click Avanti', () => { 
     // Renderizziamo il DOM
     fixture.detectChanges()
     // Troviamo il bottone Avanti
@@ -140,12 +145,11 @@ describe('ListaPost', () => {
     expect(btnAvanti).toBeDefined()
     // Avviamo il click
     btnAvanti?.nativeElement.click()
-    // Ci aspettiamo che la chiamata restituisca 4 - Utilizziamo toHaveBeenCalledWith
+    // Ci aspettiamo che la chiamata restituisca 3 - Utilizziamo toHaveBeenCalledWith
     // perchè ha argomento in ingresso, senza with non ha argomenti
-    expect(postsStoreMock.andareAPagina).toHaveBeenCalledWith(4)
+    expect(postsStoreMock.andareAPagina).toHaveBeenCalledWith(3)
 
     // NB - In questo caso non facciamo SpyON perchè il metodo è già vi.fn() nel mock
   })
 
 });
-
