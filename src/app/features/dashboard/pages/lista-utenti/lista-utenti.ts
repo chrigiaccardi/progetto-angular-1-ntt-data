@@ -25,10 +25,16 @@ export default class ListaUtenti {
   matDialog = inject(MatDialog)
 
   // Importiamo dallo store i seguenti valori
-  itemXPagina = this.utentiStore.itemXPagina
-  opzioniItemPagina = this.utentiStore.opzioniItemPagina;
-  barraDiRicercaPost: any;
-  postsStore: any;
+  readonly itemXPagina = this.utentiStore.itemXPagina
+  readonly opzioniItemPagina = this.utentiStore.opzioniItemPagina;
+  readonly caricamento = this.utentiStore.caricamento;
+  readonly errore = this.utentiStore.errore;
+  readonly utenti = this.utentiStore.utenti;
+  readonly paginaCorrente = this.utentiStore.paginaCorrente;
+  readonly paginaPrecedente = this.utentiStore.paginaPrecedente;
+  readonly paginaSuccessiva = this.utentiStore.paginaSuccessiva;
+  readonly barraDiRicercaPost: any;
+  readonly postsStore: any;
 
   // Metodo per poter cambiare Il Numero di utenti visualizzati in base a quelli presenti,
   // Quindi il valore specifico di quel evento
@@ -53,7 +59,7 @@ export default class ListaUtenti {
 
   // Nel costruttore il valueChanges ontrolla il cambio valore della barra di ricerca con un debounce di 500 ms
   // dopo di chè manda la richiesta per il filtraggio degli utenti
-  erroreRicerca = signal(false)
+  readonly erroreRicerca = signal(false)
   constructor() {
     this.barraDiRicercaUtenti.valueChanges.pipe(
       debounceTime(500),

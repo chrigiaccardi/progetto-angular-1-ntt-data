@@ -1,5 +1,9 @@
-<app-header class="z-10 relative"/>
-<main class="h-[calc(100%-64px)] overflow-auto bg-gray-200">
-  <router-outlet />
-</main>
-<footer></footer>
+<!-- Impiliamo in componenti in colonna - con flex-1 il main prende tutto lo spazio disponibile 
+ dopo che header e footer hanno il loro spazio naturale -->
+<div class="min-h-screen flex flex-col">
+  <app-header class="z-10 relative" />
+  <main class="flex-1 h-[calc(100%-64px)] overflow-auto bg-gray-200">
+    <router-outlet />
+  </main>
+  <app-footer class="z-10 relative" />
+</div>

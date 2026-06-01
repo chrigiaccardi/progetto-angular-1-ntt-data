@@ -21,17 +21,17 @@
             </div>
         </div>
         <div class="flex items-center justify-center gap-5 mb-5">
-            @if(utentiStore.caricamento()) {
+            @if(caricamento()) {
             <p class="text-xl text-bold text-blue-900 m-5">Caricamento Dati</p>
             <mat-spinner class="!h-10 !w-10"></mat-spinner>
-            } @else if (utentiStore.errore()) {
-            <p class="text-xl text-bold text-blue-900 m-5">Ops! {{utentiStore.errore()}}</p>
-            } @else if(utentiStore.utenti() && utentiStore.utenti()?.length === 0) {
+            } @else if (errore()) {
+            <p class="text-xl text-bold text-blue-900 m-5">Ops! {{errore()}}</p>
+            } @else if(utenti() && utenti()?.length === 0) {
                 <p class="text-xl text-bold text-blue-900 m-5">Mi dispiace! La ricerca non ha dato nessun riscontro, 0 Utenti trovati.</p>
             }
         </div>
 
-        @for (utente of utentiStore.utenti(); track utente.id) {
+        @for (utente of utenti(); track utente.id) {
         <app-item-lista-utenti [utente]="utente" />
         }
 
@@ -48,22 +48,22 @@
             </div>
 
             <div class="flex justify center">
-                @if (utentiStore.paginaCorrente() !== 1) {
+                @if (paginaCorrente() !== 1) {
                 <button matButton="text" class="!bg-blue-100 mt-2"
-                    (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">
+                    (click)="utentiStore.andareAPagina(paginaPrecedente())">
                     <mat-icon matPrefix>arrow_back_ios</mat-icon>
                     Indietro
                 </button>
                 <button matButton="text" class="!bg-blue-100 mt-2"
-                    (click)="utentiStore.andareAPagina(utentiStore.paginaPrecedente())">{{utentiStore.paginaPrecedente()}}</button>
+                    (click)="utentiStore.andareAPagina(paginaPrecedente())">{{paginaPrecedente()}}</button>
                 }
 
                 <button matButton="text"
-                    class="!bg-blue-100 mt-2 !font-extrabold !text-xl">{{utentiStore.paginaCorrente()}}</button>
+                    class="!bg-blue-100 mt-2 !font-extrabold !text-xl">{{paginaCorrente()}}</button>
                 <button matButton="text" class="!bg-blue-100 mt-2"
-                    (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">{{utentiStore.paginaSuccessiva()}}</button>
+                    (click)="utentiStore.andareAPagina(paginaSuccessiva())">{{paginaSuccessiva()}}</button>
                 <button matButton="text" class="!bg-blue-100 mt-2"
-                    (click)="utentiStore.andareAPagina(utentiStore.paginaSuccessiva())">
+                    (click)="utentiStore.andareAPagina(paginaSuccessiva())">
                     Avanti
                     <mat-icon matSuffix>arrow_forward_ios</mat-icon>
                 </button>

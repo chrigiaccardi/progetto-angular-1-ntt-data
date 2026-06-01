@@ -4,7 +4,6 @@ import { UtentiStore } from '../../../../core/store/utentiStore/utenti-store';
 import { PostsStore } from '../../../../core/store/postsStore/posts-store';
 import { CommentiStore } from '../../../../core/store/commentiStore/commenti-store';
 import { of } from 'rxjs';
-import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
 describe('DettagliUtente', () => {
