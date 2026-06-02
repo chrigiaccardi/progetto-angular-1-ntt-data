@@ -1,8 +1,8 @@
-import { PannelloDashboard } from "../../features/dashboard/components/pannello-dashboard/pannello-dashboard";
+import { CardDashboard } from "./card-dashboard";
 
-describe('PannelloDashboard', () => {
+describe('CardDashboard', () => {
   it('should create an instance', () => {
-    const directive = new PannelloDashboard();
+    const directive = new CardDashboard();
     expect(directive).toBeTruthy();
   });
 });

@@ -1,59 +1,41 @@
-# ProgettoAngular1NTTDATA
+# CityShare Hub
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+## 🗂️ Indice
 
-## Development server
+- [Descrizione](#-descrizione)
+- [Funzionalità dell'Applicazione](#-funzionalità-dellapplicazione)
+- [Tecnologie e Librerie Utilizzate](#-tecnologie-e-librerie-utilizzate)
+- [Prerequisiti](#-prerequisiti)
+- [Installazione e Configurazione](#-installazione-e-configurazione)
+- [Struttura Del Progetto](#-struttura-del-progetto)
+- [Autenticazione e API](#-autenticazione-e-api)
+- [Build e Deployment](#-build-e-deployment)
+- [Contatti](#-contatti)
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## 🏢 Descrizione
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+**CityShare Hub** è una dashboard creata per i cittadini, dove possono dare consigli sul miglioramento della propria città ed interagire con i propri compaesani.
+La dashboard è stata sviluppata con Angular in modalità SPA (Single Page Application).
 
-## Code scaffolding
+l'applicazione permette agli utenti di:
+- Visualizzare e gestire profili utente;
+- Creare e visualizzare post;
+- Aggiungere propri commenti ai post
+- Cercare utenti e post
+- Visualizzare nel dettaglio le informazioni degli utenti
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## 🛠️ Funzionalità dell'Applicazione
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 1. Sistema di Autenticazione
 
-```bash
-ng generate --help
-```
+**Percorso**: `/login`
 
-## Building
+- **Login con Bearer Token**: L'applicazione utilizza l'autenticazione basata sul token di GoRest;
+- **Protezione delle Route**: Tette le Route principali sono protette da `AuthGuard`;
+- **Storage Token**: Il token viene salvato in `localStorage` per mantenere la sessione aperta;
+- **Logout**: Funzionalità di `logout` che rimuove il token dal `localStorage` e reindirizza al `login`.
 
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
