@@ -32,10 +32,121 @@ l'applicazione permette agli utenti di:
 
 ### 1. Sistema di Autenticazione
 
-**Percorso**: `/login`
-
 - **Login con Bearer Token**: L'applicazione utilizza l'autenticazione basata sul token di GoRest;
 - **Protezione delle Route**: Tette le Route principali sono protette da `AuthGuard`;
 - **Storage Token**: Il token viene salvato in `localStorage` per mantenere la sessione aperta;
 - **Logout**: Funzionalità di `logout` che rimuove il token dal `localStorage` e reindirizza al `login`.
 
+**Come Funziona**:
+1. l'utente inserisce il Bearer Token ottenuto da GoRest;
+2. Il tuo token viene validato tramite una chiamata API;
+3. se valido, viene salvato e l'utente reindirizzato verso la Homepage;
+4. Tutte le richieste HTTP successive includono il token di autenticazione utilizzato all'accesso;
+
+### 2. Homepage
+
+- **Visualizzazione pannelli**: L'utente effettuato l'accesso arriva alla homepage, dove visualizza due pannelli per la lista utenti e la lista post.
+- **Sidenav**: Nella sidenav, apribile tramite il bottone nell'header, viene visualizzata una piccola presentazione di CityShare Hub e due bottoni shortcut per andare alla lista utenti e alla lista post.
+
+### 3. Lista Utenti
+
+#### Funzionalità:
+
+1. **Visualizzazione Lista Utenti**: La lista utenti è di default da 5 item, ma è possibile modificarla con l'apposito selettore.
+2. **Ricerca Utente**: Tramite la barra di ricerca è possibile filtrare un utente per il nome.
+3. **Creazione Nuovo Utente**: Il bottone Aggiungi Utente apre un dialog modale con form validato: Nome, Email (formato email), Genere (Maschio / Femmina), Stato(Attivo / Inattivo). All'invio vi è la validazione immediata con messaggio di errore e feedback tramite Toaster per il successo o l'insuccesso dell'aggiunta.
+4. **Eliminazione Utente**: Ogni Item Utente ha un bottone per effettuare l'eliminazione dell'utente stesso, con avvenuta conferma tramite Toaster ed aggiornamento automatico della lista.
+5. **Visualizzazione Dettagli Utente**: Ogni Item Utente ha un bottone per entrare nella sua pagina dedicata ai Dettagli Utente.
+6. **Tasto Homepage**: Il tasto Homepage permette di tornare indietro nello storico del browser.
+
+### 4. Lista Post
+
+#### Funzionalità: 
+
+1. **Visualizzazione Lista Post**: In questo caso la lista post è composta da Card, 6 di default che si possono modificare con l'apposito selettore.
+3. **Card Post**: La card è composta dal titolo, il contenuto, il bottone Leggi Tutto, Il bottone per caricare i commenti, il Nome del Creatore del post e l'ID di identificazione del Post.
+3. **Ricerca Post**: Con la barra di ricerca è possibile filtrare i post per il titolo.
+4. **Creazione Nuovo Post**: Il Bottone nuovo Post apre un dialog modale con form validato composto da titolo e Contenuto. In questo caso ho voluto interpolare l'utente che carica il post. Tramite un metodo controlloAdmin, viene controllato tramite chiamata HTTP se l'utente Admin è presente nella lista utenti: se si il post viene caricato a suo nome, se no viene creato un utente Admin con tutti i dati personali richiesti e caricato il post a suo nome.
+Feedback di successo tramite Toaster
+5. **Bottone Leggi di più**: Se il post ha un contenuto più lungo il bottone permette di ampliare la lista e leggere tutto il contenuto.
+6. **Bottone Commenti**: Il bottone commenti fa partire la chiamata HTTP per caricare in una apposita sezione i commenti che sono presenti per quel post specifico. In aggiunta si può commentare il post sempre a nome Admin.
+Feedback di successo tramite Toaster.
+7. **Visualizzazione Dettagli Utente**: Cliccando sul nome di chi ha creato il post è possibile visualizzare i suoi dettagli nella apposita pagina. Se il post non ha un nome creatore viene visualizzato Sconosciuto.
+8. **Tasto Homepage**: Il tasto Homepage permette di tornare indietro nello storico del browser.
+
+### 5. Dettagli Utente
+
+#### Funzionalità:
+
+1. **Informazioni Utente**: Vengono visualizzate tutte le informazioni dell'utente: Nome, Email, Genere (Sia come Badge e sia come colore Icona Utente), Stato (Badge Attivo o Inattivo)
+2. **Visualizzazione Lista Post**: Vengono visualizzati i post che l'utente in questione ha creato in forma di lista.
+3. **Item Post**: Il post può essere visualizzato completamente con la possibilità di vedere i relativi commenti e commentare di conseguenza con l'apposito Input.
+6. **Tasto Indietro**: Il tasto Indietro permette di tornare indietro nello storico del browser.
+
+### 6. Sistema Commenti
+
+#### Funzionalità:
+
+1. **Visualizzazione Commenti**: I commenti vengono visualizzati in diverso moto:
+    - Per quanto riguarda la lista Post viene effettuata appositamente la chiamata HTTP al click sul bottone commenti;
+    - Per quanto riguarda i la lista post all'interno della sezione dettagli utente i commenti vengono direttamente caricati insieme ai post, e quindi già disponibili all'apertura del post in questione.
+2. **Creazione Nuovo Commento**: Un nuovo commento presenta un apposito input per il contenuto, come creatore del commento viene in automatico interpolato Admin.
+Feedback di successo tramite Toaster e aggiornamento automatico della lista dopo l'invio.
+
+### 7. Componenti UI Condivisi:
+
+**Toolbar**:
+- Bottone apertura sidenav;
+- Bottone Logout;
+- Titolo Dashboard;
+
+**Footer**:
+- Copyright
+
+**Paginatore Personalizzato**: 
+- Navigazione tra le pagine;
+- Bottone Indietro non presente quando siamo alla 1a pagina;
+- Selettore per la visualizzazione delle liste post e Utenti
+
+**Barra di Ricerca**:
+- Ricerca in tempo reale
+- Debouncing per ottimizzare la performance di ricerca
+- Utilizzata sia in Lista Utenti che Lista Post;
+
+**Toaster**:
+- Toaster impostato da libreria esterna
+- Feedback immediato di tutte le operazioni
+- Messaggi di successo in verde e di errore in rosso
+
+---
+
+## Tecnologie e Librerie Utilizzate
+
+## Framework e Linguaggi
+
+| Tecnologia | Versione | Descrizione |
+|------------|-----------|------------|
+| **Angular** | 
+| **Typescript** |
+| **HTML 5** | - | Markup per la struttura delle pagine|
+| **Talwind** |  | Framework per lo stile |
+
+### Librerie UI e Component
+
+| Libreria | Versione | Utilizzo nell'App |
+|------------|-----------|------------|
+| **@angular/material** | | Componenti UI Material Design (cards, bottoni, dialog, ecc.) |
+| **@angulat/cdk** | | Component Development Kit | 
+
+### Routing e Forms
+
+| Libreria | Versione | Utilizzo nell'App |
+|------------|-----------|------------|
+| **@angular/router**| | Sistema di routing per la navigazione tra le pagine | 
+| **@angular/forms** || Gestione dei form reattivi e validazione degli stessi|
+
+### HTTP e State Management
+
+| Libreria | Versione | Utilizzo nell'App |
+|------------|-----------|------------|
+|
