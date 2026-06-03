@@ -168,7 +168,7 @@ Feedback di successo tramite Toaster e aggiornamento automatico della lista dopo
 
 | Libreria | Versione | Utilizzo nell'App |
 |------------|-----------|------------|
-| **@angular/common/http** | | HttpClient per le chiamate API |
+| **@angular/common/http** | 21.2.0 | HttpClient per le chiamate API |
 | **@ngrx/signals** | 21.1.0 | SignalStore per una gestione dello stato moderna basata sui signals|
 | **RxJS** | 7.8.0 | Programmazione reattiva per la gestione asincrona
 
@@ -265,7 +265,7 @@ ng test --include #url singolo file da testare
 
 Vitest è compatibile con Jest, ma molto più veloce grazie all'integrazione con Vite. [web:683][web:686][web:717]
 
-![Screenshot Testing](./src/app/assets/screenshot/)
+![Screenshot Testing](./src/app/assets/screenshot/Screenshot-Testing.png)
 
 ---
 
