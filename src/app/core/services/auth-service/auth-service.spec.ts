@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth-service';
 import { provideRouter, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -11,13 +11,15 @@ describe('AuthService', () => {
   // Creiamo describe separati visto il test del costruttore
   describe('Constructor - Token presente', () => {
     let serviceToken: AuthService
-    let http: HttpClient
 
     beforeEach(() => {
       TestBed.configureTestingModule({
         providers: [
           AuthService,
-          provideRouter([])
+          provideRouter([]),
+          // Inseriamo HttpClientTesting nel provider per la creazione del componente ma,
+          // non usandolo da nessuna parte non ci serve iniettarlo.
+          provideHttpClientTesting() 
         ]
       });
       // Preparo il localStorage con il token
@@ -25,7 +27,6 @@ describe('AuthService', () => {
       localStorage.setItem('tokenDiAccesso', tokenLS)
       // Creo il Service
       serviceToken = TestBed.inject(AuthService)
-      http = TestBed.inject(HttpClient)
     })
     afterEach(() => {
       // Dopo ogni test rimuoviamo il token dal localStorage
@@ -44,7 +45,8 @@ describe('AuthService', () => {
       TestBed.configureTestingModule({
         providers: [
           AuthService,
-          provideRouter([])
+          provideRouter([]),
+          provideHttpClientTesting()
         ]
       });
       service = TestBed.inject(AuthService);
