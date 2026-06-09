@@ -66,10 +66,12 @@ export const CommentiStore = signalStore(
                         patchState(store, {erroreAggiungiCommento: ''})
                         rispostaCommenti.reload()
                         toaster.successo('Commento aggiunto con successo!')
+                        console.log('nuovo commento id:', nuovoCommento.post_id)
                     },
                     error: (err) => {
-                        patchState(store, { erroreAggiungiCommento: `Errore nell'aggiunta del commento: ${err}` })
-                        toaster.errore(`Errore, commento non aggiunto: ${err}`,)
+                        patchState(store, { erroreAggiungiCommento: `Errore nell'aggiunta del commento!` })
+                        toaster.errore(`Errore, commento non aggiunto!`,)
+                        console.log('nuovo commento id:', nuovoCommento.post_id)
                     }
                 })
             })
