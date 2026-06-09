@@ -21,6 +21,5 @@ export default class Login {
   invioToken(form: NgForm) {
     const token = form.value.token
     this.authService.verificaBearerToken(token)
-    console.log('Token Inviato', token)
   }
 }

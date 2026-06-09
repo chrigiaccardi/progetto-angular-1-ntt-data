@@ -107,7 +107,6 @@ export const PostsStore = signalStore(
 
             setIdUtente: signalMethod<string>((idUtente: string) => {
                 patchState(store, { idUtenteSelezionato: idUtente })
-                console.log('Utente:', idUtente)
             }),
 
             utenteEsiste: (idUtente: string): boolean => {
