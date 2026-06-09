@@ -110,6 +110,10 @@ export const PostsStore = signalStore(
                 console.log('Utente:', idUtente)
             }),
 
+            utenteEsiste: (idUtente: string): boolean => {
+                return rispostaIdNomeUtenti.value()?.some(u => u.id === idUtente) ?? false
+            },
+
             getNomeUtente: (idUtente: string): string => {
                 const nomeUtente = rispostaIdNomeUtenti.value()?.find(u => u.id === idUtente)
                 return nomeUtente?.name ?? 'Sconosciuto'

@@ -1,3 +1,4 @@
+
 [build]
   command = "npm run build"
   publish = "dist/progetto-angular-1-NTT-DATA/browser"
@@ -6,3 +7,5 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+  Creiamo questo file per far si che netlify riconosca l'app come SPA (Single Page Application) e non dia errore 404 not found

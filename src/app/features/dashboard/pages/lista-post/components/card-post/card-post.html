@@ -52,7 +52,7 @@
     <div class="px-5 py-3 bg-slate-100 border-t border-slate-100">
         <span class="flex items-center gap-2"> Creato da:
             <a rel="noopener noreferrer" class="hover:text-blue-600 cursor-pointer"
-                [routerLink]="post().user_id ? ['/dashboard/dettagli-utente', post().user_id] : null">
+                [routerLink]="postsStore.utenteEsiste(post().user_id) ? ['/dashboard/dettagli-utente', post().user_id] : null" >
                 <span class="font-medium">{{postsStore.getNomeUtente(post().user_id)}}</span>
             </a>
         </span>
