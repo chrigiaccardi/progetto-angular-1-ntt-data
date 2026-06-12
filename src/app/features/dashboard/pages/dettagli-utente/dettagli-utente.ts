@@ -47,13 +47,13 @@ export default class DettagliUtente {
   })
 
   // Creiamo il metodo per aggiungere il commento
-  aggiungiCommento() {
+  aggiungiCommento(postId: string) {
     const commentoData = this.aggiungiCommentoForm.getRawValue();
 
     this.utentiStore.controlloAdmin().subscribe({
       next: (admin) => {
         const nuovoCommento: Omit<Commento, 'id'> = {
-          post_id: '',
+          post_id: postId,
           name: admin.name,
           email: admin.email,
           body: commentoData.body

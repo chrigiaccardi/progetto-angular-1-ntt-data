@@ -78,7 +78,7 @@
                         <app-lista-commenti-post [commento]="commento" />
                         }
                         <!-- Form per scrivere un nuovo commento -->
-                        <form [formGroup]="aggiungiCommentoForm" (ngSubmit)="aggiungiCommento()"
+                        <form [formGroup]="aggiungiCommentoForm" (ngSubmit)="aggiungiCommento(post.id)"
                             class="flex items-center gap-3 m-2">
                             <mat-form-field class="w-full" appearance="outline">
                                 <mat-label>Commento:</mat-label>
